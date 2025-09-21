@@ -21,4 +21,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "KaKaoBookSearch"
 include(":app")
- 
+include(":core")
+include(":domain")
+include(":feature")
+include(":feature:detail")
+include(":feature:main")
