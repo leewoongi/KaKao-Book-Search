@@ -18,6 +18,7 @@ class DataPlugin : Plugin<Project> {
             pluginManager.apply {
                 applyPlugin("android-library")
                 applyPlugin("kotlin-android")
+                apply("kakaobooksearch.hilt")
             }
 
             val properties = Properties()
@@ -30,6 +31,10 @@ class DataPlugin : Plugin<Project> {
             }
 
             dependencies {
+                "implementation"(findLibrary("retrofit"))
+                "implementation"(findLibrary("retrofit-converter-gson"))
+                "implementation"(findLibrary("okhttp3"))
+                "implementation"(findLibrary("okhttp3-logging-interceptor"))
                 add("implementation", project(":domain"))
             }
         }
