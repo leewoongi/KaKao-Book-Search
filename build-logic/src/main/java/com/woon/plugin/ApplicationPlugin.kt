@@ -16,6 +16,7 @@ class ApplicationPlugin: Plugin<Project> {
             pluginManager.apply {
                 applyPlugin("android-application")
                 applyPlugin("kotlin-android")
+                apply("kakaobooksearch.hilt")
             }
 
             val properties = Properties()
