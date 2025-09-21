@@ -16,6 +16,7 @@ class DomainPlugin: Plugin<Project> {
             pluginManager.apply {
                 apply("java-library")
                 apply("org.jetbrains.kotlin.jvm")
+                applyPlugin("ksp")
             }
 
             extensions.configure<JavaPluginExtension> {
@@ -28,7 +29,8 @@ class DomainPlugin: Plugin<Project> {
             }
 
             dependencies {
-
+                "implementation"(findLibrary("hilt-core"))
+                add("ksp", findLibrary("hilt-android-compiler"))
             }
         }
     }

@@ -4,9 +4,6 @@ plugins {
     `kotlin-dsl`
 }
 
-
-// Configure the build-logic plugins to target JDK 17
-// This matches the JDK used to build the project, and is not related to what is running on device.
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
@@ -43,6 +40,11 @@ gradlePlugin {
         register("Data") {
             id = "kakaobooksearch.data"
             implementationClass = "com.woon.plugin.DataPlugin"
+        }
+
+        register("Hilt") {
+            id = "kakaobooksearch.hilt"
+            implementationClass = "com.woon.plugin.HiltPlugin"
         }
     }
 }

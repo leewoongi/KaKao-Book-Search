@@ -18,6 +18,7 @@ class FeaturePlugin : Plugin<Project>{
                 applyPlugin("android-library")
                 applyPlugin("kotlin-android")
                 applyPlugin("kotlin-compose")
+                apply("kakaobooksearch.hilt")
             }
 
             extensions.configure<LibraryExtension> {
