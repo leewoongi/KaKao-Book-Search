@@ -1,6 +1,8 @@
 package com.woon.datasource.module
 
-import androidx.test.espresso.core.internal.deps.dagger.Module
+import com.woon.datasource.remote.book.api.BookApi
+import com.woon.datasource.remote.interceptor.AuthInterceptor
+import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
@@ -13,7 +15,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-    private const val BASE_URL = ""
+    private const val BASE_URL = "https://dapi.kakao.com/v3/search/"
 
     @Provides
     @Singleton
@@ -21,7 +23,7 @@ object NetworkModule {
         return OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
-            })
+            }).addInterceptor(AuthInterceptor())
             .build()
     }
 
@@ -33,5 +35,11 @@ object NetworkModule {
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideBookApi(retrofit: Retrofit) : BookApi {
+        return retrofit.create(BookApi::class.java)
     }
 }
