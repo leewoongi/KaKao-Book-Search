@@ -2,7 +2,7 @@ package com.woon.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.woon.domain.usecase.GetBooksUseCase
+import com.woon.domain.book.usecase.GetBooksUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
