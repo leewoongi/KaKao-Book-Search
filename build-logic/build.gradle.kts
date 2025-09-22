@@ -42,6 +42,11 @@ gradlePlugin {
             implementationClass = "com.woon.plugin.DataPlugin"
         }
 
+        register("Core") {
+            id = "kakaobooksearch.core"
+            implementationClass = "com.woon.plugin.CorePlugin"
+        }
+
         register("Hilt") {
             id = "kakaobooksearch.hilt"
             implementationClass = "com.woon.plugin.HiltPlugin"

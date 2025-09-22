@@ -4,6 +4,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
@@ -17,6 +18,7 @@ fun BTextView(
     overflow: TextOverflow = TextOverflow.Clip,
     textAlign:TextAlign = TextAlign.Start,
     textDecoration: TextDecoration? = null,
+    textStyle: TextStyle
 ){
     Text(
         text = text,
@@ -26,6 +28,7 @@ fun BTextView(
         textAlign = textAlign,
         maxLines = maxLines,
         overflow = overflow,
-        textDecoration = textDecoration
+        textDecoration = textDecoration,
+        fontSize = textStyle.fontSize,
     )
 }
