@@ -21,10 +21,17 @@ class DataPlugin : Plugin<Project> {
                 apply("kakaobooksearch.hilt")
             }
 
-            val properties = Properties()
-            properties.load(project.rootProject.file("local.properties").inputStream())
-
             extensions.configure<LibraryExtension> {
+                val properties = Properties()
+                val localPropertiesFile = project.rootProject.file("local.properties")
+                if (localPropertiesFile.exists()) {
+                    properties.load(localPropertiesFile.inputStream())
+                }
+
+                buildFeatures {
+                    buildConfig = true
+                }
+
                 androidProject(this)
                 kotlinProject(this)
                 junitProject(this)
