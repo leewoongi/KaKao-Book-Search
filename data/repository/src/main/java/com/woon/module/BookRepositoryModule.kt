@@ -1,7 +1,7 @@
 package com.woon.module
 
-import com.woon.domain.repository.BookRepository
-import com.woon.repository.BookRepositoryImpl
+import com.woon.domain.book.repository.BookRepository
+import com.woon.repository.book.BookRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
