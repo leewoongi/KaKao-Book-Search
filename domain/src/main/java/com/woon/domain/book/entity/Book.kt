@@ -11,7 +11,6 @@ import java.util.Date
  * @param isbn ISBN
  * @param salePrice 판매 가격
  * @param price 정가
- * @param salePercent 할인
  * @param publisher 출판사
  * @param status 판매 상태
  * @param title 책 제목
@@ -26,11 +25,18 @@ data class Book(
     val isbn: String,
     val salePrice: Money,
     val price: Money,
-    val salePercent: Double,
     val publisher: String,
     val status: BookStatus,
     val title: String,
     val image: String,
     val translators: List<String>,
     val url: String
-)
+){
+    fun convertAuthorsToString(): String {
+        return authors.joinToString(", ")
+    }
+
+    fun isDisCount() : Boolean {
+        return price.changeRateString(salePrice) != "0"
+    }
+}

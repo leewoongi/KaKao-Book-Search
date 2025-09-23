@@ -19,6 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
@@ -41,8 +42,13 @@ import com.woon.core.design.textview.BTextView
 @Composable
 fun BVerticalCard(
     modifier: Modifier = Modifier,
+    title: String,
+    thumbnail: String,
+    price: String,
+    salePrice: String,
+    isDisCount: Boolean,
+    discount: String,
     onClick: () -> Unit,
-    onIconClick: () -> Unit,
 ) {
     Card(
         modifier = modifier
@@ -84,30 +90,8 @@ fun BVerticalCard(
                                 )
                             )
                         )
-                        .align(Alignment.Center),
-                    percent = 50,
-                )
-
-                // 즐겨찾기 버튼
-                BIconButton(
-                    modifier = Modifier
-                        .padding(4.dp)
-                        .background(
-                            color = Color.Black.copy(alpha = 0.6f),
-                            shape = CircleShape
-                        )
-                        .border(
-                            width = 1.dp,
-                            color = Color.White.copy(alpha = 0.3f),
-                            shape = CircleShape
-                        )
-                        .size(24.dp)
-                        .align(Alignment.TopEnd),
-                    icon = Icons.Filled.Favorite,
-//                icon = if (book.isFavorite) Icons.Filled.Favorite else Icons.Default.FavoriteBorder,
-                    iconColor = Color.White,
-//                iconColor = if (book.isFavorite) Color(0xFFE50914) else Color.White,
-                    onClick = { onIconClick() }
+                        .align(Alignment.TopStart),
+                    content = discount,
                 )
             }
 
@@ -118,39 +102,40 @@ fun BVerticalCard(
                     .padding(10.dp)
             ) {
                 BTextView(
-                    text = "TEST TEST TEST",
+                    text = title,
                     color = Color(0xFF111827),
                     textStyle = TextStyle(
                         fontSize = 12.sp,
                         fontWeight = FontWeight.SemiBold
                     ),
-                    maxLines = 2,
+                    maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
 
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(1.dp))
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+                    if(isDisCount) {
+                        BTextView(
+                            text = salePrice,
+                            color = Color(0xFFFF4458),
+                            textStyle = TextStyle(
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Bold
+                            ),
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                    }
+
                     BTextView(
-                        text = "₩9,900",
+                        text = price,
                         color = Color(0xFF111827),
                         textStyle = TextStyle(
-                            fontSize = 13.sp,
-                            fontWeight = FontWeight.Bold
+                            fontSize = 8.sp,
                         ),
-                    )
-
-                    Spacer(modifier = Modifier.width(4.dp))
-
-                    BTextView(
-                        text = "₩19,800",
-                        color = Color(0xFF111827),
-                        textStyle = TextStyle(
-                            fontSize = 11.sp,
-                        ),
-                        textDecoration = TextDecoration.LineThrough
+                        textDecoration = if(isDisCount) TextDecoration.LineThrough else TextDecoration.None
                     )
                 }
             }

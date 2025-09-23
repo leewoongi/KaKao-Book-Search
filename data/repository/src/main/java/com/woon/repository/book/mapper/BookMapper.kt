@@ -14,7 +14,6 @@ internal fun Document.toDomain() : Book {
         isbn = isbn,
         salePrice = Money(salePrice),
         price = Money(price),
-        salePercent = Money(price).changeRate(Money(salePrice)),
         publisher = publisher,
         status = BookStatus.from(status),
         title = title,

@@ -23,13 +23,22 @@ data class Money(
     }
 
     fun toCurrencyString(symbol: String = "₩"): String {
-        return "$symbol${toFormattedString()}"
+        return if (value <= 0.0) {
+            "${symbol}0원"
+        } else {
+            "$symbol${DecimalFormat("#,###").format(value.toLong())}원"
+        }
     }
 
     // 백분율 계산
     fun changeRate(from: Money): Double {
         if (from.value == 0.0) return 0.0
         return ((value - from.value) / value * 100)
+    }
+
+    fun changeRateString(from: Money): String {
+        val rate = changeRate(from)
+        return "${rate.toInt()}%"
     }
 
     // 변환
