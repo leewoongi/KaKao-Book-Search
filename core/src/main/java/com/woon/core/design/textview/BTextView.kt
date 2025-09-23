@@ -30,5 +30,6 @@ fun BTextView(
         overflow = overflow,
         textDecoration = textDecoration,
         fontSize = textStyle.fontSize,
+        fontWeight = textStyle.fontWeight
     )
 }

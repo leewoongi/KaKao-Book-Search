@@ -28,6 +28,7 @@ internal fun Project.composeProject(
             "implementation"(findLibrary("androidx-ui-tooling-preview"))
             "implementation"(findLibrary("androidx-material3"))
             "implementation"(findLibrary("androidx-navigation"))
+            "implementation"(findLibrary("androidx-foundation"))
 
             "androidTestImplementation"(platform(bom))
             "androidTestImplementation"(findLibrary("androidx-ui-test-junit4"))
