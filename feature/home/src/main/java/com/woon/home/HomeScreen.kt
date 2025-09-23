@@ -3,28 +3,25 @@ package com.woon.home
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.woon.core.design.textview.BBadge
-import com.woon.core.design.textview.BCard
+import com.woon.core.design.card.BVerticalCard
 import com.woon.core.design.textview.BSearchBar
 import com.woon.core.design.textview.BTextView
-import com.woon.domain.book.entity.Book
-import com.woon.domain.money.entity.Money
 
 @Composable
 fun HomeScreen(
@@ -65,7 +62,7 @@ fun HomeScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             items(5) { book ->
-                BCard(
+                BVerticalCard(
                     onClick = {  },
                     onIconClick = {  }
                 )
@@ -75,5 +72,36 @@ fun HomeScreen(
         Spacer(
             modifier = Modifier.height(16.dp)
         )
+
+        BTextView(
+            text = "검색 목록",
+            color = Color.Black,
+            textStyle = TextStyle(
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold
+            )
+        )
+
+        Spacer(
+            modifier = Modifier.height(8.dp)
+        )
+
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            modifier = modifier
+                .fillMaxSize()
+                .background(Color(0xFFF8F9FA))
+        ) {
+            items(
+                count = 10,
+            ) { book ->
+                BVerticalCard(
+                    onClick = {  },
+                    onIconClick = {  }
+                )
+            }
+        }
     }
 }

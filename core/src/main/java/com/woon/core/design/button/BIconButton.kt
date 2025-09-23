@@ -1,4 +1,4 @@
-package com.woon.core.design.textview
+package com.woon.core.design.button
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon

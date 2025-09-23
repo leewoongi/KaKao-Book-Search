@@ -1,4 +1,4 @@
-package com.woon.core.design.textview
+package com.woon.core.design.card
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,6 +24,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
@@ -32,9 +34,12 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.woon.core.design.button.BIconButton
+import com.woon.core.design.badge.BBadge
+import com.woon.core.design.textview.BTextView
 
 @Composable
-fun BCard(
+fun BVerticalCard(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
     onIconClick: () -> Unit,
@@ -71,12 +76,20 @@ fun BCard(
                 // 할인 배지
                 BBadge(
                     modifier = Modifier
-                        .padding(8.dp)
-                        .align(Alignment.TopStart)
-                        .background(
-                            color = Color.Red,
+                        .shadow(
+                            elevation = 4.dp,
                             shape = RoundedCornerShape(4.dp)
-                        ),
+                        )
+                        .background(
+                            brush = Brush.linearGradient(
+                                colors = listOf(
+                                    Color(0xFFFF4458),  // 밝은 빨강
+                                    Color(0xFFE50914)   // 어두운 빨강
+                                )
+                            ),
+                            shape = RoundedCornerShape(4.dp)
+                        )
+                        .align(Alignment.Center),
                     percent = 50,
                 )
 

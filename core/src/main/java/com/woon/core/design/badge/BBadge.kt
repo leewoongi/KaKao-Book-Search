@@ -1,4 +1,4 @@
-package com.woon.core.design.textview
+package com.woon.core.design.badge
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -14,6 +14,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.woon.core.design.textview.BTextView
 
 @Composable
 fun BBadge(
@@ -22,19 +23,6 @@ fun BBadge(
 ) {
     Box(
         modifier = modifier
-            .shadow(
-                elevation = 4.dp,
-                shape = RoundedCornerShape(4.dp)
-            )
-            .background(
-                brush = Brush.linearGradient(
-                    colors = listOf(
-                        Color(0xFFFF4458),  // 밝은 빨강
-                        Color(0xFFE50914)   // 어두운 빨강
-                    )
-                ),
-                shape = RoundedCornerShape(4.dp)
-            )
             .padding(horizontal = 8.dp, vertical = 4.dp),
         contentAlignment = Alignment.Center
     ) {
