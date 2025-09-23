@@ -30,6 +30,7 @@ class FeaturePlugin : Plugin<Project>{
 
             dependencies {
                 add("implementation", project(":domain"))
+                add("implementation", project(":core"))
             }
         }
     }

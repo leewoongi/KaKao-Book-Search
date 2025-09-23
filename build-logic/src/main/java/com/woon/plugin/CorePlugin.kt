@@ -9,7 +9,6 @@ import com.woon.ext.applyPlugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.dependencies
 
 class CorePlugin : Plugin<Project> {
     override fun apply(target: Project) {
