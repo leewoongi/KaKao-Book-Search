@@ -1,4 +1,4 @@
-package com.woon.home.ui
+package com.woon.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -17,14 +17,18 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.woon.core.design.card.BHorizontalSkeletonCard
-import com.woon.core.design.card.BVerticalSkeletonCard
+import com.woon.core.design.card.BHorizontalCard
+import com.woon.core.design.card.BVerticalCard
 import com.woon.core.design.textview.BSearchBar
 import com.woon.core.design.textview.BTextView
+import com.woon.home.model.BookUiModel
+import com.woon.home.ui.DisCountBookScreen
 
 @Composable
-fun LoadingScreen(
-    modifier: Modifier = Modifier
+fun SuccessScreen(
+    modifier: Modifier = Modifier,
+    books: List<BookUiModel>,
+    topDiscountedBooks: List<BookUiModel>
 ){
     Column(
         modifier = Modifier
@@ -41,27 +45,10 @@ fun LoadingScreen(
             modifier = Modifier.height(16.dp)
         )
 
-        BTextView(
-            text = "오늘의 할인",
-            color = Color.Black,
-            textStyle = TextStyle(
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold
-            )
+        DisCountBookScreen(
+            modifier = modifier,
+            item = topDiscountedBooks
         )
-
-        Spacer(
-            modifier = Modifier.height(8.dp)
-        )
-
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            items(5) { book ->
-                BVerticalSkeletonCard()
-            }
-        }
 
         Spacer(
             modifier = Modifier.height(16.dp)
@@ -89,7 +76,10 @@ fun LoadingScreen(
             items(
                 count = 10,
             ) { book ->
-                BHorizontalSkeletonCard()
+                BHorizontalCard(
+                    onClick = {  },
+                    onIconClick = {  }
+                )
             }
         }
     }

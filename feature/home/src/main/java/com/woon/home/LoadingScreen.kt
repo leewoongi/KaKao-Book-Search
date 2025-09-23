@@ -1,4 +1,4 @@
-package com.woon.home.ui
+package com.woon.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -17,13 +17,13 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.woon.core.design.card.BHorizontalCard
-import com.woon.core.design.card.BVerticalCard
+import com.woon.core.design.card.BHorizontalSkeletonCard
+import com.woon.core.design.card.BVerticalSkeletonCard
 import com.woon.core.design.textview.BSearchBar
 import com.woon.core.design.textview.BTextView
 
 @Composable
-fun SuccessScreen(
+fun LoadingScreen(
     modifier: Modifier = Modifier
 ){
     Column(
@@ -59,10 +59,7 @@ fun SuccessScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             items(5) { book ->
-                BVerticalCard(
-                    onClick = {  },
-                    onIconClick = {  }
-                )
+                BVerticalSkeletonCard()
             }
         }
 
@@ -92,10 +89,7 @@ fun SuccessScreen(
             items(
                 count = 10,
             ) { book ->
-                BHorizontalCard(
-                    onClick = {  },
-                    onIconClick = {  }
-                )
+                BHorizontalSkeletonCard()
             }
         }
     }

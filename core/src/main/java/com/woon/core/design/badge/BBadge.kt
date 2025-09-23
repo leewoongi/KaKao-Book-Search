@@ -14,7 +14,7 @@ import com.woon.core.design.textview.BTextView
 
 @Composable
 fun BBadge(
-    percent: Int,
+    content: String,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -23,7 +23,7 @@ fun BBadge(
         contentAlignment = Alignment.Center
     ) {
         BTextView(
-            text = "$percent%",
+            text = content,
             color = Color.White,
             textStyle = TextStyle(
                 fontSize = 11.sp,
