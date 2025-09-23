@@ -1,8 +1,6 @@
 package com.woon.core.design.textview
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -26,6 +24,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+//TODO 색상 재사용 가능하게 하기, Text 재사용 가능하게 하기
 @Composable
 fun BSearchBar(
     modifier: Modifier = Modifier,
@@ -74,22 +73,20 @@ fun BSearchBar(
             focusedTextColor = Color.Black,
             unfocusedTextColor = Color.White,
             cursorColor = Color.White,
-            focusedBorderColor = Color.Transparent,
-            unfocusedBorderColor = Color.Transparent
+            focusedBorderColor = Color(0xFFE0E0E0),
+            unfocusedBorderColor = Color(0xFFE0E0E0)
         ),
         shape = RoundedCornerShape(8.dp),
         singleLine = true,
         keyboardOptions = KeyboardOptions(
-            imeAction = ImeAction.Search  // 키보드에 검색 버튼 표시
+            imeAction = ImeAction.Search
         ),
         keyboardActions = KeyboardActions(
-            onSearch = {  // 검색 버튼 클릭 시
+            onSearch = {
                 onSearchTextChange(searchText)
-                keyboardController?.hide()  // 키보드 숨기기
+                keyboardController?.hide()
             }
         ),
         modifier = modifier
-            .fillMaxWidth()
-            .padding(16.dp)
     )
 }

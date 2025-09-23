@@ -6,12 +6,14 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.woon.main.ui.model.BottomNavItem
 
 @Composable
 fun BottomNavigationBar(
+    modifier: Modifier = Modifier,
     navController: NavController
 ) {
     val items = listOf(
@@ -19,7 +21,9 @@ fun BottomNavigationBar(
         BottomNavItem.Favorites
     )
 
-    NavigationBar {
+    NavigationBar(
+        modifier = modifier
+    ){
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
 
