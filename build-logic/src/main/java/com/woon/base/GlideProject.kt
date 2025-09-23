@@ -11,8 +11,6 @@ internal fun Project.glideProject(
     commonExtension.apply {
         dependencies {
             "implementation"(findLibrary("glide"))
-            "implementation"(findLibrary("glide-compiler"))
-            "implementation"(findLibrary("glide-compose"))
         }
     }
 }
