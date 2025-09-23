@@ -34,8 +34,8 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.woon.core.design.button.BIconButton
 import com.woon.core.design.badge.BBadge
+import com.woon.core.design.button.BIconButton
 import com.woon.core.design.textview.BTextView
 
 @Composable
@@ -65,7 +65,7 @@ fun BVerticalCard(
                     .weight(1f),
                 contentAlignment = Alignment.Center
             ) {
-                // 이미지 넣어야 함
+                //TODO Glide 적용
                 Image(
                     modifier = Modifier.fillMaxSize(),
                     imageVector = Icons.Default.Close,
@@ -73,21 +73,16 @@ fun BVerticalCard(
                     contentDescription = "Book Image"
                 )
 
-                // 할인 배지
                 BBadge(
                     modifier = Modifier
-                        .shadow(
-                            elevation = 4.dp,
-                            shape = RoundedCornerShape(4.dp)
-                        )
+                        .shadow(elevation = 4.dp)
                         .background(
                             brush = Brush.linearGradient(
                                 colors = listOf(
-                                    Color(0xFFFF4458),  // 밝은 빨강
-                                    Color(0xFFE50914)   // 어두운 빨강
+                                    Color(0xFFFF4458),
+                                    Color(0xFFE50914)
                                 )
-                            ),
-                            shape = RoundedCornerShape(4.dp)
+                            )
                         )
                         .align(Alignment.Center),
                     percent = 50,
@@ -138,7 +133,6 @@ fun BVerticalCard(
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    // 할인 가격
                     BTextView(
                         text = "₩9,900",
                         color = Color(0xFF111827),
@@ -150,7 +144,6 @@ fun BVerticalCard(
 
                     Spacer(modifier = Modifier.width(4.dp))
 
-                    // 정가
                     BTextView(
                         text = "₩19,800",
                         color = Color(0xFF111827),

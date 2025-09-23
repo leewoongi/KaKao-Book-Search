@@ -8,9 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.woon.core.design.card.BHorizontalCard
 import com.woon.core.design.card.BVerticalCard
 import com.woon.core.design.textview.BSearchBar
 import com.woon.core.design.textview.BTextView
@@ -83,21 +83,19 @@ fun HomeScreen(
         )
 
         Spacer(
-            modifier = Modifier.height(8.dp)
+            modifier = Modifier.height(16.dp)
         )
 
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            modifier = modifier
+        LazyColumn(
+            modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xFFF8F9FA))
-        ) {
+                .background(color = Color.White),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ){
             items(
                 count = 10,
             ) { book ->
-                BVerticalCard(
+                BHorizontalCard(
                     onClick = {  },
                     onIconClick = {  }
                 )
