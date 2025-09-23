@@ -33,7 +33,7 @@ fun Skeleton(
 @Composable
 internal fun getSimmerBrush(): Brush {
     val widthOfShadowBrush = 500
-    val durationMillis = 1000
+    val durationMillis = 700
     val angleOfAxisY = 270f
 
     val shimmerColors = listOf(
