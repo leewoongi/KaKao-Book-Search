@@ -6,13 +6,14 @@ import com.woon.home.model.BookUiModel
 
 internal fun Book.toUiModel() : BookUiModel {
     return BookUiModel(
-        authors = authors,
+        authors = convertAuthorsToString(),
         contents = contents,
         time = time.toFormattedString(),
         isbn = isbn,
         salePrice = salePrice.toCurrencyString(),
         price = price.toCurrencyString(),
         salePercent = price.changeRateString(salePrice),
+        isDiscount = isDisCount(),
         publisher = publisher,
         status = status.name,
         title = title,

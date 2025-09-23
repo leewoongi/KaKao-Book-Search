@@ -46,13 +46,11 @@ fun DisCountBookScreen(
                 BVerticalCard(
                     title = item[book].title,
                     thumbnail = item[book].image,
-                    isSelect = false,
                     isDisCount = true,
                     discount = item[book].salePercent,
                     price = item[book].price,
                     salePrice = item[book].salePrice,
                     onClick = {  },
-                    onIconClick = {  }
                 )
             }
         }

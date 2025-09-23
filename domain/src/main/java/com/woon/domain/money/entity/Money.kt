@@ -38,7 +38,7 @@ data class Money(
 
     fun changeRateString(from: Money): String {
         val rate = changeRate(from)
-        return "${rate.toInt()}%"  // 정수로 표시 + %
+        return "${rate.toInt()}%"
     }
 
     // 변환

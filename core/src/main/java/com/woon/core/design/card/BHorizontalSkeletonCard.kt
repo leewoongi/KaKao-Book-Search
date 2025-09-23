@@ -25,7 +25,7 @@ fun BHorizontalSkeletonCard(){
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(120.dp)
+            .height(140.dp)
             .clip(RoundedCornerShape(8.dp))
             .background(Color.White)
             .padding(12.dp)
@@ -33,7 +33,7 @@ fun BHorizontalSkeletonCard(){
         // 이미지 영역
         Skeleton(
             modifier = Modifier
-                .width(80.dp)
+                .width(90.dp)
                 .fillMaxHeight(),
             radius = 6.dp
         )
@@ -45,24 +45,12 @@ fun BHorizontalSkeletonCard(){
             modifier = Modifier
                 .weight(1f)
                 .fillMaxHeight(),
-            verticalArrangement = Arrangement.SpaceBetween
         ) {
             Column {
-                // 제목 (첫 번째 줄)
                 Skeleton(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(18.dp),
-                    radius = 4.dp
-                )
-
-                Spacer(modifier = Modifier.height(6.dp))
-
-                // 제목 (두 번째 줄)
-                Skeleton(
-                    modifier = Modifier
-                        .fillMaxWidth(0.7f)
-                        .height(16.dp),
+                        .height(34.dp),
                     radius = 4.dp
                 )
 
@@ -77,15 +65,14 @@ fun BHorizontalSkeletonCard(){
                 )
             }
 
-            // 하단 정보
+            Spacer(modifier = Modifier.height(4.dp))
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.Bottom
             ) {
-                // 가격 영역
                 Column {
-                    // 할인 가격
                     Skeleton(
                         modifier = Modifier
                             .width(70.dp)
@@ -95,7 +82,6 @@ fun BHorizontalSkeletonCard(){
 
                     Spacer(modifier = Modifier.height(4.dp))
 
-                    // 원가
                     Skeleton(
                         modifier = Modifier
                             .width(50.dp)

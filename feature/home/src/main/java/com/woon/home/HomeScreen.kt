@@ -23,6 +23,8 @@ fun HomeScreen(
                 topDiscountedBooks = state.topDiscountedBooks
             )
         }
-        is HomeUiState.Error -> {}
+        is HomeUiState.Error -> {
+            //Todo 에러 뷰 생성하기
+        }
     }
 }

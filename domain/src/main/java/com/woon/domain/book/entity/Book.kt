@@ -31,4 +31,12 @@ data class Book(
     val image: String,
     val translators: List<String>,
     val url: String
-)
+){
+    fun convertAuthorsToString(): String {
+        return authors.joinToString(", ")
+    }
+
+    fun isDisCount() : Boolean {
+        return price.changeRateString(salePrice) != "0"
+    }
+}

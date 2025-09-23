@@ -44,13 +44,11 @@ fun BVerticalCard(
     modifier: Modifier = Modifier,
     title: String,
     thumbnail: String,
-    isSelect: Boolean,
     price: String,
     salePrice: String,
     isDisCount: Boolean,
     discount: String,
     onClick: () -> Unit,
-    onIconClick: () -> Unit,
 ) {
     Card(
         modifier = modifier
@@ -94,26 +92,6 @@ fun BVerticalCard(
                         )
                         .align(Alignment.TopStart),
                     content = discount,
-                )
-
-                // 즐겨찾기 버튼
-                BIconButton(
-                    modifier = Modifier
-                        .padding(4.dp)
-                        .background(
-                            color = Color.Black.copy(alpha = 0.6f),
-                            shape = CircleShape
-                        )
-                        .border(
-                            width = 1.dp,
-                            color = Color.White.copy(alpha = 0.3f),
-                            shape = CircleShape
-                        )
-                        .size(24.dp)
-                        .align(Alignment.TopEnd),
-                    icon = if (isSelect) Icons.Filled.Favorite else Icons.Default.FavoriteBorder,
-                    iconColor = if (isSelect) Color(0xFFE50914) else Color.White,
-                    onClick = { onIconClick() }
                 )
             }
 

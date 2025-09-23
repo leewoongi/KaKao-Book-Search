@@ -1,13 +1,14 @@
 package com.woon.home.model
 
 data class BookUiModel(
-    val authors: List<String>,
+    val authors: String,
     val contents: String,
     val time: String,
     val isbn: String,
     val salePrice: String,
     val price: String,
     val salePercent: String,
+    val isDiscount: Boolean,
     val publisher: String,
     val status: String,
     val title: String,

@@ -23,6 +23,7 @@ import com.woon.core.design.textview.BSearchBar
 import com.woon.core.design.textview.BTextView
 import com.woon.home.model.BookUiModel
 import com.woon.home.ui.DisCountBookScreen
+import com.woon.home.ui.SearchBookScreen
 
 @Composable
 fun SuccessScreen(
@@ -45,6 +46,7 @@ fun SuccessScreen(
             modifier = Modifier.height(16.dp)
         )
 
+        // 오늘의 할인
         DisCountBookScreen(
             modifier = modifier,
             item = topDiscountedBooks
@@ -54,33 +56,10 @@ fun SuccessScreen(
             modifier = Modifier.height(16.dp)
         )
 
-        BTextView(
-            text = "검색 목록",
-            color = Color.Black,
-            textStyle = TextStyle(
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold
-            )
+        // 검색한 도서 목록
+        SearchBookScreen(
+            modifier = modifier,
+            item = books
         )
-
-        Spacer(
-            modifier = Modifier.height(16.dp)
-        )
-
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = Color.White),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ){
-            items(
-                count = 10,
-            ) { book ->
-                BHorizontalCard(
-                    onClick = {  },
-                    onIconClick = {  }
-                )
-            }
-        }
     }
 }
