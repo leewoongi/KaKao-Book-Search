@@ -2,79 +2,60 @@ package com.woon.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.woon.domain.book.exception.BookException
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import androidx.paging.map
 import com.woon.domain.book.usecase.GetBooksUseCase
-import com.woon.domain.book.usecase.GetTopDiscountedBooksUseCase
 import com.woon.home.mapper.toUiModel
+import com.woon.home.model.BookUiModel
 import com.woon.home.model.SearchFilterStatus
-import com.woon.home.state.HomeUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 
 @HiltViewModel
 class HomeViewModel
 @Inject constructor(
     private val getBooksUseCase: GetBooksUseCase,
-    private val getTopDiscountedBooksUseCase: GetTopDiscountedBooksUseCase
-): ViewModel() {
+) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
-    val uiState = _uiState.asStateFlow()
-    private val exceptionHandler = CoroutineExceptionHandler { context, throwable ->
-        // 에러 처리 로직
-        _uiState.value = HomeUiState.Error(
-            exception = throwable,
-            onClick = { retry() }
-        )
-    }
-
-    private val _searchQuery = MutableStateFlow("")
-    val searchQuery = _searchQuery.asStateFlow()
+    private val _query = MutableStateFlow("")
+    val query = _query.asStateFlow()
 
     private val _filter = MutableStateFlow(SearchFilterStatus.ACCURACY)
     val filter = _filter.asStateFlow()
 
+    private val _books = MutableStateFlow<PagingData<BookUiModel>>(PagingData.empty())
+    val books = _books.asStateFlow()
 
     init {
         getBooks()
     }
 
     private fun getBooks() {
-        viewModelScope.launch(exceptionHandler) {
-            _uiState.value = HomeUiState.Loading
-
-            val result = getBooksUseCase.invoke(
-                query = searchQuery.value,
+        viewModelScope.launch {
+            getBooksUseCase.invoke(
+                query = query.value,
                 filter = filter.value.value
-            )
-            val books = result.map { it.toUiModel() }
-            val topDiscountedBooks = getTopDiscountedBooksUseCase.invoke(
-                books = result,
-                limit = 5
-            ).map { it.toUiModel() }
-            delay(1000)
-
-            _uiState.value = HomeUiState.Success(
-                books = books,
-                topDiscountedBooks = topDiscountedBooks,
-                onSearchTextChange = { query ->
-                    _searchQuery.value = query
-                    getBooks()
-                },
-                onFilterClick = { filterStatus ->
-                    _filter.value = filterStatus
-                    getBooks()
-                }
-            )
+            ).map { pagingData ->
+                pagingData.map { it.toUiModel() }
+            }.cachedIn(viewModelScope).collect { bookUiModel ->
+                _books.value = bookUiModel
+            }
         }
     }
 
-    private fun retry() {
+    fun updateQuery(query: String) {
+        _query.value = query
+        getBooks()
+    }
+
+    fun updateFilter(filter: SearchFilterStatus) {
+        _filter.value = filter
         getBooks()
     }
 }

@@ -3,6 +3,7 @@ package com.woon.datasource.remote
 import com.woon.datasource.BookRemoteDataStore
 import com.woon.datasource.remote.book.api.BookApi
 import com.woon.datasource.remote.book.response.book.BookResponse
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class BookRemoteDataStoreImpl
@@ -11,12 +12,17 @@ class BookRemoteDataStoreImpl
 ): BookRemoteDataStore {
     override suspend fun getBooks(
         query: String,
-        filter: String
+        filter: String,
+        page: Int,
+        size: Int
     ) : BookResponse {
         println("TEST TEST TEST getBook")
+        delay(1000)
         return bookApi.getBooks(
             query = query,
-            sort = filter
+            sort = filter,
+            page = page,
+            size = size
         )
     }
 }

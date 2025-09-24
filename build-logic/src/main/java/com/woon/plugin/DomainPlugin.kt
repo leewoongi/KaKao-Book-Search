@@ -30,6 +30,7 @@ class DomainPlugin: Plugin<Project> {
 
             dependencies {
                 "implementation"(findLibrary("hilt-core"))
+                "implementation"(findLibrary("paging-common"))
                 add("ksp", findLibrary("hilt-android-compiler"))
             }
         }

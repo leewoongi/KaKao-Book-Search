@@ -7,6 +7,7 @@ import com.woon.base.glideProject
 import com.woon.base.junitProject
 import com.woon.base.kotlinProject
 import com.woon.ext.applyPlugin
+import com.woon.ext.findLibrary
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -31,6 +32,8 @@ class FeaturePlugin : Plugin<Project>{
             }
 
             dependencies {
+                "implementation"(findLibrary("paging-runtime"))
+                "implementation"(findLibrary("paging-compose"))
                 add("implementation", project(":domain"))
                 add("implementation", project(":core"))
             }

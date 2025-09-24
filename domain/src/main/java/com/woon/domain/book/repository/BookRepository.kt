@@ -1,10 +1,12 @@
 package com.woon.domain.book.repository
 
+import androidx.paging.PagingData
 import com.woon.domain.book.entity.Book
+import kotlinx.coroutines.flow.Flow
 
 interface BookRepository {
-    suspend fun getBooks(
+    fun getBookList(
         query: String,
-        filter: String
-    ) : List<Book>
+        filter: String,
+    ) : Flow<PagingData<Book>>
 }
