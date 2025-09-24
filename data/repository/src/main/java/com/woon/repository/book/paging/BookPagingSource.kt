@@ -2,11 +2,11 @@ package com.woon.repository.book.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.woon.datasource.BookRemoteDataStore
+import com.woon.datasource.BookDataSource
 import com.woon.datasource.remote.book.response.book.Document
 
 class BookPagingSource(
-    private val remoteDataStore: BookRemoteDataStore,
+    private val remoteDataStore: BookDataSource,
     private val query: String,
     private val filter: String
 ) : PagingSource<Int, Document>() {

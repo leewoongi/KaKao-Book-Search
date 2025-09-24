@@ -19,6 +19,7 @@ internal fun Document.toDomain() : Book {
         title = title,
         image = thumbnail,
         translators = translators,
-        url = url
+        url = url,
+        favorite = false
     )
 }

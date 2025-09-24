@@ -1,22 +1,21 @@
 package com.woon.datasource.remote
 
-import com.woon.datasource.BookRemoteDataStore
+import com.woon.datasource.BookDataSource
 import com.woon.datasource.remote.book.api.BookApi
 import com.woon.datasource.remote.book.response.book.BookResponse
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 
-class BookRemoteDataStoreImpl
+class BookRemoteDataSourceImpl
 @Inject constructor(
     private val bookApi: BookApi
-): BookRemoteDataStore {
+): BookDataSource {
     override suspend fun getBooks(
         query: String,
         filter: String,
         page: Int,
         size: Int
     ) : BookResponse {
-        println("TEST TEST TEST getBook")
         delay(1000)
         return bookApi.getBooks(
             query = query,

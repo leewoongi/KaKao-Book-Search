@@ -30,7 +30,8 @@ data class Book(
     val title: String,
     val image: String,
     val translators: List<String>,
-    val url: String
+    val url: String,
+    val favorite: Boolean
 ){
     fun convertAuthorsToString(): String {
         return authors.joinToString(", ")

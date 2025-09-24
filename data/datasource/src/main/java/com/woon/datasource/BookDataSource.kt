@@ -2,7 +2,7 @@ package com.woon.datasource
 
 import com.woon.datasource.remote.book.response.book.BookResponse
 
-interface BookRemoteDataStore {
+interface BookDataSource {
     suspend fun getBooks(
         query: String,
         filter: String,
