@@ -19,6 +19,7 @@ ksp = "2.2.0-2.0.2"
 retrofit = "3.0.0"
 okhttp = "5.1.0"
 foundation = "1.9.1"
+glide = "1.0.0-beta08"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -55,6 +56,8 @@ retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-
 okhttp3 = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp"}
 okhttp3-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp"}
 
+#Glide
+glide = { group = "com.github.bumptech.glide", name = "compose", version.ref = "glide"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

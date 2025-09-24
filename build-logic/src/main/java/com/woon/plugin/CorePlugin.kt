@@ -3,6 +3,7 @@ package com.woon.plugin
 import com.android.build.gradle.LibraryExtension
 import com.woon.base.androidProject
 import com.woon.base.composeProject
+import com.woon.base.glideProject
 import com.woon.base.junitProject
 import com.woon.base.kotlinProject
 import com.woon.ext.applyPlugin
@@ -24,6 +25,7 @@ class CorePlugin : Plugin<Project> {
                 kotlinProject(this)
                 junitProject(this)
                 composeProject(this)
+                glideProject(this)
             }
         }
     }
