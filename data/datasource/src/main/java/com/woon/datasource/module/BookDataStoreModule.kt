@@ -2,6 +2,7 @@ package com.woon.datasource.module
 
 import com.woon.datasource.local.LocalBookDataSource
 import com.woon.datasource.local.LocalBookLocalDataSourceImpl
+import com.woon.datasource.remote.RemoteBookDataSource
 import com.woon.datasource.remote.RemoteBookDataSourceImpl
 import dagger.Binds
 import dagger.Module
@@ -18,7 +19,7 @@ abstract class BookDataStoreModule {
     @Singleton
     abstract fun bindBookRemoteDataStore(
         remoteBookDataSourceImpl: RemoteBookDataSourceImpl
-    ): LocalBookDataSource
+    ): RemoteBookDataSource
 
     @Binds
     @Singleton

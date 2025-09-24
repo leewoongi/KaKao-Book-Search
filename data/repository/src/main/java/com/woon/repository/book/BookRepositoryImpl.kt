@@ -44,13 +44,4 @@ class BookRepositoryImpl
     override suspend fun deleteFavoriteBook(book: Book) {
         localBookDataSource.deleteFavoriteBook(book.toEntity())
     }
-
-    override suspend fun getFavoriteBookList(): Flow<List<Book>> {
-        return localBookDataSource.getRemoteBooks(
-            query = "",
-            filter = "",
-            page = 0,
-            size = 0
-        )
-    }
 }
