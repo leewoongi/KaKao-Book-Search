@@ -7,7 +7,7 @@ import com.woon.datasource.remote.RemoteBookDataSource
 import com.woon.datasource.remote.book.response.book.Document
 
 class BookPagingSource(
-    private val remoteDataStore: RemoteBookDataSource,
+    private val remoteDataSource: RemoteBookDataSource,
     private val query: String,
     private val filter: String
 ) : PagingSource<Int, Document>() {
@@ -17,7 +17,7 @@ class BookPagingSource(
             val page = params.key ?: 1
             val size = params.loadSize.takeIf { it <= 20 } ?: 20
 
-            val response = remoteDataStore.getRemoteBooks(query, filter, page, size)
+            val response = remoteDataSource.getRemoteBooks(query, filter, page, size)
             val documents = response.documents
 
             val nextKey = when {

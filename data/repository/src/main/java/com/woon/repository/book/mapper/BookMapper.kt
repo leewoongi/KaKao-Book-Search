@@ -1,5 +1,6 @@
 package com.woon.repository.book.mapper
 
+import com.woon.datasource.local.room.entity.BookCacheEntity
 import com.woon.datasource.local.room.entity.BookEntity
 import com.woon.datasource.remote.book.response.book.Document
 import com.woon.domain.book.entity.Book
@@ -45,6 +46,51 @@ internal fun Book.toEntity() : BookEntity {
 }
 
 internal fun BookEntity.toDomain(): Book {
+    return Book (
+        authors = authors.split(", ").map { it.trim() },
+        contents = contents,
+        time = Date(time),
+        isbn = isbn,
+        salePrice = Money(salePrice),
+        price = Money(price),
+        publisher = publisher,
+        status = BookStatus.from(status),
+        title = title,
+        image = image,
+        translators = translators.split(", ").map { it.trim() },
+        url = url,
+        isFavorite = favorite
+    )
+}
+
+internal fun Document.toCacheEntity(
+    query: String,
+    id: String,
+    page: Int,
+    position: Int
+): BookCacheEntity {
+    return BookCacheEntity(
+        isbn = isbn,
+        title = title,
+        authors = authors.joinToString(", "),
+        contents = contents,
+        time = datetime.toDate().time,
+        price = price,
+        salePrice = salePrice,
+        publisher = publisher,
+        status = status,
+        image = thumbnail,
+        translators = translators.joinToString(", "),
+        url = url,
+        favorite = false,
+        query = query,
+        id = id,
+        page = page,
+        position = position
+    )
+}
+
+internal fun BookCacheEntity.toDomain(): Book {
     return Book (
         authors = authors.split(", ").map { it.trim() },
         contents = contents,

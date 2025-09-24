@@ -13,9 +13,12 @@ class LocalBookLocalDataSourceImpl
 @Inject constructor(
     private val bookDao: BookDao
 ) : LocalBookDataSource {
+    override fun getBooks(): PagingSource<Int, BookEntity> {
+        return bookDao.getBooks()
+    }
 
-    override fun getFavoriteBooks(): PagingSource<Int, BookEntity> {
-        return bookDao.getAllBooks()
+    override suspend fun getFavoriteBooks(): List<BookEntity> {
+        return bookDao.getFavoriteBooks()
     }
 
     override suspend fun saveFavoriteBook(entity: BookEntity) {
@@ -28,5 +31,9 @@ class LocalBookLocalDataSourceImpl
         withContext(Dispatchers.IO) {
             bookDao.deleteBook(book = entity)
         }
+    }
+
+    override suspend fun getFavoriteIsbns(): Set<String> {
+        return bookDao.getFavoriteIsbns().toSet()
     }
 }

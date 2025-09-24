@@ -12,11 +12,17 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface BookDao {
     @Query("SELECT * FROM books")
-    fun getAllBooks(): PagingSource<Int, BookEntity>
+    fun getBooks(): PagingSource<Int, BookEntity>
+
+    @Query("SELECT * FROM books WHERE favorite = 1")
+    suspend fun getFavoriteBooks(): List<BookEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertBook(book: BookEntity)
 
     @Delete
     suspend fun deleteBook(book: BookEntity)
+
+    @Query("SELECT isbn FROM books WHERE favorite = 1")
+    suspend fun getFavoriteIsbns(): List<String>
 }

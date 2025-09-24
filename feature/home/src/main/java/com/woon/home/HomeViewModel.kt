@@ -43,15 +43,7 @@ class HomeViewModel
 
     private fun getBooks() {
         viewModelScope.launch {
-//            getBooksUseCase.getRemoteBooks(
-//                query = query.value,
-//                filter = filter.value.value
-//            ).map { pagingData ->
-//                pagingData.map { it.toUiModel() }
-//            }.cachedIn(viewModelScope).collect { bookUiModel ->
-//                _books.value = bookUiModel
-//            }
-            getBooksUseCase.getLocalBooks(
+            getBooksUseCase.getRemoteBooks(
                 query = query.value,
                 filter = filter.value.value
             ).map { pagingData ->

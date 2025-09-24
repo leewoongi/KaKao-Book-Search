@@ -35,4 +35,10 @@ object RoomModule {
     fun provideBookDao(
         appDatabase: AppDatabase
     ) = appDatabase.bookDao()
+
+    @Provides
+    @Singleton
+    fun provideBookCacheDao(
+        appDatabase: AppDatabase
+    ) = appDatabase.bookCacheDao()
 }

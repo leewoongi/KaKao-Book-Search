@@ -1,5 +1,6 @@
 package com.woon.repository.book
 
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -12,14 +13,19 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import androidx.paging.map
+import com.woon.datasource.local.room.database.AppDatabase
 import com.woon.datasource.remote.RemoteBookDataSource
 import com.woon.repository.book.mapper.toEntity
+import com.woon.repository.book.paging.BookRemoteMediator
 
 class BookRepositoryImpl
 @Inject constructor(
-    private val remoteBookDataSource: RemoteBookDataSource,
-    private val localBookDataSource: LocalBookDataSource
+    private val remoteDataSource: RemoteBookDataSource,
+    private val localDataSource: LocalBookDataSource,
+    private val db: AppDatabase
 ): BookRepository {
+
+    @OptIn(ExperimentalPagingApi::class)
     override fun getRemoteBooks(
         query: String,
         filter: String,
@@ -27,13 +33,24 @@ class BookRepositoryImpl
         return Pager(
             config = PagingConfig(
                 pageSize = 20,
-                enablePlaceholders = false
+                enablePlaceholders = false,
+                prefetchDistance = 5,
+                initialLoadSize = 40
+            ),
+            remoteMediator = BookRemoteMediator(
+                query = query,
+                filter = filter,
+                remoteDataSource = remoteDataSource,
+                localDataSource = localDataSource,
+                db = db
             ),
             pagingSourceFactory = {
-                BookPagingSource(remoteBookDataSource, query, filter)
+                db.bookCacheDao().pagingSource(query)
             }
         ).flow.map { pagingData ->
-            pagingData.map { it.toDomain() }
+            pagingData.map { entity ->
+                entity.toDomain()
+            }
         }
     }
 
@@ -46,17 +63,17 @@ class BookRepositoryImpl
                 pageSize = 20,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { localBookDataSource.getFavoriteBooks() }
+            pagingSourceFactory = { localDataSource.getBooks() }
         ).flow.map { pagingData ->
             pagingData.map { it.toDomain() }
         }
     }
 
     override suspend fun saveFavoriteBook(book: Book) {
-        localBookDataSource.saveFavoriteBook(book.toEntity())
+        localDataSource.saveFavoriteBook(book.toEntity())
     }
 
     override suspend fun deleteFavoriteBook(book: Book) {
-        localBookDataSource.deleteFavoriteBook(book.toEntity())
+        localDataSource.deleteFavoriteBook(book.toEntity())
     }
 }

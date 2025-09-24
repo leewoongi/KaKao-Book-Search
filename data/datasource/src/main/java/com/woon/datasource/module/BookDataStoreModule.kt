@@ -26,6 +26,4 @@ abstract class BookDataStoreModule {
     abstract fun bindBookLocalDataStore(
         bookLocalDataSourceImpl: LocalBookLocalDataSourceImpl
     ): LocalBookDataSource
-
-
 }
