@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.woon.favorite.FavoriteScreen
 import com.woon.home.HomeScreen
 
 @Composable
@@ -19,6 +20,10 @@ fun NavigationGraph(
     ) {
         composable("home") {
             HomeScreen()
+        }
+
+        composable("favorite") {
+            FavoriteScreen()
         }
 
         composable("detail") {
