@@ -4,8 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.filter
 import androidx.paging.map
 import com.woon.domain.book.usecase.GetBooksUseCase
+import com.woon.domain.book.usecase.ToggleFavoriteBookUseCase
+import com.woon.home.mapper.toDomain
 import com.woon.home.mapper.toUiModel
 import com.woon.home.model.BookUiModel
 import com.woon.home.model.SearchFilterStatus
@@ -21,6 +24,7 @@ import javax.inject.Inject
 class HomeViewModel
 @Inject constructor(
     private val getBooksUseCase: GetBooksUseCase,
+    private val toggleFavoriteBookUseCase: ToggleFavoriteBookUseCase
 ) : ViewModel() {
 
     private val _query = MutableStateFlow("")
@@ -57,5 +61,14 @@ class HomeViewModel
     fun updateFilter(filter: SearchFilterStatus) {
         _filter.value = filter
         getBooks()
+    }
+
+    fun updateFavorite(bookUiModel: BookUiModel){
+        viewModelScope.launch {
+            val book = bookUiModel.copy(
+                isFavorite = !bookUiModel.isFavorite
+            ).toDomain()
+            toggleFavoriteBookUseCase.invoke(book)
+        }
     }
 }

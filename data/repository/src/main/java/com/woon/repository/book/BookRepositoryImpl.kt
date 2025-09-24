@@ -12,11 +12,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import androidx.paging.map
+import com.woon.datasource.module.LocalDataSource
 import com.woon.datasource.module.RemoteDataSource
+import com.woon.repository.book.mapper.toEntity
 
 class BookRepositoryImpl
 @Inject constructor(
-    @RemoteDataSource private val bookDataSource: BookDataSource
+    @RemoteDataSource private val remoteBookDataSource: BookDataSource,
+    @LocalDataSource private val localBookDataSource: BookDataSource
 ): BookRepository {
     override fun getBookList(
         query: String,
@@ -28,10 +31,14 @@ class BookRepositoryImpl
                 enablePlaceholders = false
             ),
             pagingSourceFactory = {
-                BookPagingSource(bookDataSource, query, filter)
+                BookPagingSource(remoteBookDataSource, query, filter)
             }
         ).flow.map { pagingData ->
             pagingData.map { it.toDomain() }
         }
+    }
+
+    override suspend fun saveFavoriteBook(book: Book) {
+        localBookDataSource.saveFavoriteBook(book.toEntity())
     }
 }

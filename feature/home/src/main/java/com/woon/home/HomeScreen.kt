@@ -32,7 +32,8 @@ fun HomeScreen(
             SuccessScreen(
                 books = books,
                 onSearchTextChange = { viewModel.updateQuery(it) },
-                onFilterClick = { viewModel.updateFilter(it) }
+                onFilterClick = { viewModel.updateFilter(it) },
+                onClickFavorite = { viewModel.updateFavorite(it) }
             )
         }
     }

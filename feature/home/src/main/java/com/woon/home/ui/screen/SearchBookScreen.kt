@@ -35,7 +35,8 @@ import com.woon.home.ui.screen.footer.PagingLoadStateFooter
 @Composable
 fun SearchBookScreen(
     modifier: Modifier = Modifier,
-    item: LazyPagingItems<BookUiModel>
+    item: LazyPagingItems<BookUiModel>,
+    onClickFavorite: (BookUiModel) -> Unit = {}
 ){
     Column(
         modifier = modifier
@@ -75,7 +76,7 @@ fun SearchBookScreen(
                         salePrice = book.salePrice,
                         isDisCount = book.isDiscount,
                         onClick = {  },
-                        onIconClick = {  }
+                        onIconClick = { onClickFavorite(book) }
                     )
                 }
             }

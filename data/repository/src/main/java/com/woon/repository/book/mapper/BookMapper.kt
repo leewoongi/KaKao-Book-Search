@@ -1,5 +1,6 @@
 package com.woon.repository.book.mapper
 
+import com.woon.datasource.local.room.entity.BookEntity
 import com.woon.datasource.remote.book.response.book.Document
 import com.woon.domain.book.entity.Book
 import com.woon.domain.book.entity.BookStatus
@@ -20,6 +21,24 @@ internal fun Document.toDomain() : Book {
         image = thumbnail,
         translators = translators,
         url = url,
-        favorite = false
+        isFavorite = false
+    )
+}
+
+internal fun Book.toEntity() : BookEntity {
+    return BookEntity(
+        isbn = isbn,
+        title = title,
+        authors = authors.joinToString(", "),
+        contents = contents,
+        time = time.time,
+        price = price.value,
+        salePrice = salePrice.value,
+        publisher = publisher,
+        status = status.name,
+        image = image,
+        translators = translators.joinToString(", "),
+        url = url,
+        favorite = isFavorite
     )
 }

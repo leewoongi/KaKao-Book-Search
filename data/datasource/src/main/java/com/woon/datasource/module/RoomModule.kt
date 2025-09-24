@@ -2,6 +2,7 @@ package com.woon.datasource.module
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
@@ -21,12 +22,12 @@ object RoomModule {
     @Singleton
     fun provideAppDatabase(
         @ApplicationContext context: Context
-    ): RoomDatabase.Builder<AppDatabase> {
+    ): AppDatabase {
         return Room.databaseBuilder(
             context = context,
             klass = AppDatabase::class.java,
             name = "app_database"
-        )
+        ).build()
     }
 
     @Provides
@@ -34,5 +35,4 @@ object RoomModule {
     fun provideBookDao(
         appDatabase: AppDatabase
     ) = appDatabase.bookDao()
-
 }

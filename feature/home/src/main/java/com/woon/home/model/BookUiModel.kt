@@ -15,5 +15,5 @@ data class BookUiModel(
     val image: String,
     val translators: List<String>,
     val url: String,
-    val isFavorite: Boolean = false
+    val isFavorite: Boolean
 )
