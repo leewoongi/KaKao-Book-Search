@@ -20,6 +20,8 @@ retrofit = "3.0.0"
 okhttp = "5.1.0"
 foundation = "1.9.1"
 glide = "1.0.0-beta08"
+paging_version = "3.3.6"
+paging_compose = "3.4.0-alpha04"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -58,6 +60,11 @@ okhttp3-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-
 
 #Glide
 glide = { group = "com.github.bumptech.glide", name = "compose", version.ref = "glide"}
+
+#Paging
+paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging_version"}
+paging-common = { group = "androidx.paging", name = "paging-common", version.ref = "paging_version"}
+paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging_compose"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

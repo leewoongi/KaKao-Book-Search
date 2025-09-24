@@ -42,6 +42,7 @@ class DataPlugin : Plugin<Project> {
                 "implementation"(findLibrary("retrofit-converter-gson"))
                 "implementation"(findLibrary("okhttp3"))
                 "implementation"(findLibrary("okhttp3-logging-interceptor"))
+                "implementation"(findLibrary("paging-runtime"))
                 add("implementation", project(":domain"))
             }
         }
