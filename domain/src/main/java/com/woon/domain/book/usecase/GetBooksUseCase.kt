@@ -12,7 +12,7 @@ class GetBooksUseCase
 @Inject constructor(
     private val bookRepository: BookRepository
 ){
-    fun getBookList(
+    operator fun invoke(
         query: String,
         filter: String
     ) : Flow<PagingData<Book>> {

@@ -9,18 +9,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.paging.compose.LazyPagingItems
 import com.woon.core.design.textview.BSearchBar
 import com.woon.home.model.BookUiModel
 import com.woon.home.model.SearchFilterStatus
-import com.woon.home.ui.screen.DisCountBookScreen
 import com.woon.home.ui.screen.FilterScreen
 import com.woon.home.ui.screen.SearchBookScreen
 
 @Composable
 fun SuccessScreen(
     modifier: Modifier = Modifier,
-    books: List<BookUiModel>,
-    topDiscountedBooks: List<BookUiModel>,
+    books: LazyPagingItems<BookUiModel>,
     onSearchTextChange: (String) -> Unit = {},
     onFilterClick: (SearchFilterStatus) -> Unit = {}
 ){
@@ -39,7 +38,7 @@ fun SuccessScreen(
             modifier = Modifier.height(16.dp)
         )
 
-        if(books.isEmpty()){
+        if(books.itemCount == 0){
             EmptyScreen(
                 modifier = Modifier.fillMaxSize()
             )
@@ -47,16 +46,6 @@ fun SuccessScreen(
             FilterScreen(
                 modifier = modifier,
                 onClick = { onFilterClick(it) }
-            )
-
-            Spacer(
-                modifier = Modifier.height(16.dp)
-            )
-
-            // 오늘의 할인
-            DisCountBookScreen(
-                modifier = modifier,
-                item = topDiscountedBooks
             )
 
             Spacer(
