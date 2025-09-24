@@ -27,4 +27,10 @@ class BookLocalDataSourceImpl
             bookDao.insertBook(book = entity)
         }
     }
+
+    override suspend fun deleteFavoriteBook(entity: BookEntity) {
+        withContext(Dispatchers.IO) {
+            bookDao.deleteBook(book = entity)
+        }
+    }
 }

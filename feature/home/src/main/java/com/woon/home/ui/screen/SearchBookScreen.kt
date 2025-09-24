@@ -71,7 +71,7 @@ fun SearchBookScreen(
                         authors = book.authors,
                         time = book.time,
                         publisher = book.publisher,
-                        isSelect = false,
+                        isSelect = book.isFavorite,
                         price = book.price,
                         salePrice = book.salePrice,
                         isDisCount = book.isDiscount,

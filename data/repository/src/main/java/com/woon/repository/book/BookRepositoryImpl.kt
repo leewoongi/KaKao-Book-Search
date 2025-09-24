@@ -41,4 +41,8 @@ class BookRepositoryImpl
     override suspend fun saveFavoriteBook(book: Book) {
         localBookDataSource.saveFavoriteBook(book.toEntity())
     }
+
+    override suspend fun deleteFavoriteBook(book: Book) {
+        localBookDataSource.deleteFavoriteBook(book.toEntity())
+    }
 }

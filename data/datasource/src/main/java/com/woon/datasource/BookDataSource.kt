@@ -13,4 +13,5 @@ interface BookDataSource {
     ) : BookResponse
 
     suspend fun saveFavoriteBook(entity: BookEntity)
+    suspend fun deleteFavoriteBook(entity: BookEntity)
 }

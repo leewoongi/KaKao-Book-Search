@@ -30,4 +30,8 @@ class BookRemoteDataSourceImpl
     override suspend fun saveFavoriteBook(entity: BookEntity) {
         // Local에서만 사용
     }
+
+    override suspend fun deleteFavoriteBook(entity: BookEntity) {
+        // Local에서만 사용
+    }
 }
