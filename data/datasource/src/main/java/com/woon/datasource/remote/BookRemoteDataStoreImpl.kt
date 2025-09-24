@@ -9,10 +9,12 @@ class BookRemoteDataStoreImpl
 @Inject constructor(
     private val bookApi: BookApi
 ): BookRemoteDataStore {
-    override suspend fun getBooks() : BookResponse {
+    override suspend fun getBooks(
+        query: String
+    ) : BookResponse {
         println("TEST TEST TEST getBook")
         return bookApi.getBooks(
-            "미움받을 용기"
+            query
         )
     }
 }

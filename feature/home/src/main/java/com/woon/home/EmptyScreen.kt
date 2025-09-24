@@ -19,7 +19,6 @@ import com.woon.core.design.textview.BTextView
 @Composable
 fun EmptyScreen(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
 ){
     Column(
         modifier = modifier.fillMaxSize(),
@@ -33,21 +32,6 @@ fun EmptyScreen(
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Bold
             )
-        )
-
-        Spacer(modifier = Modifier.height(4.dp))
-        Button(
-            onClick = { onClick() },
-            content = {
-                BTextView(
-                    text = "재시도",
-                    color = Color(0xFF111827),
-                    textStyle = TextStyle(
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Normal
-                    )
-                )
-            }
         )
     }
 }
