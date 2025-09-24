@@ -10,11 +10,10 @@ class BookRepositoryImpl
 @Inject constructor(
     private val bookRemoteDataStore: BookRemoteDataStore
 ): BookRepository {
-    override suspend fun getBooks() : List<Book> {
-        val result = bookRemoteDataStore.getBooks().documents.map {
+    override suspend fun getBooks(query: String) : List<Book> {
+        val result = bookRemoteDataStore.getBooks(query).documents.map {
             it.toDomain()
         }
-        println("TEST TEST TEST result: $result")
         return result
     }
 }

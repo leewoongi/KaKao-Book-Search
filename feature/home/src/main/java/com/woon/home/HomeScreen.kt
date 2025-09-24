@@ -18,23 +18,19 @@ fun HomeScreen(
         is HomeUiState.Loading -> {
             LoadingScreen()
         }
-        is HomeUiState.Empty -> {
-            EmptyScreen(
-                modifier = Modifier.fillMaxSize(),
-                onClick = { viewModel.retry() }
-            )
-        }
+
         is HomeUiState.Success -> {
             SuccessScreen(
                 books = state.books,
-                topDiscountedBooks = state.topDiscountedBooks
+                topDiscountedBooks = state.topDiscountedBooks,
+                onSearchTextChange = state.onSearchTextChange,
             )
         }
         is HomeUiState.Error -> {
             ErrorScreen(
                 modifier = Modifier.fillMaxSize(),
                 error = state.exception,
-                onClick = { viewModel.retry() }
+                onClick = { state.onClick() }
             )
         }
     }
