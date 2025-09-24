@@ -9,4 +9,6 @@ interface BookRepository {
         query: String,
         filter: String,
     ) : Flow<PagingData<Book>>
+
+    suspend fun saveFavoriteBook(book: Book)
 }

@@ -18,6 +18,7 @@ kotlin {
 dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
+    compileOnly(libs.room.gradle.plugin)
 }
 
 gradlePlugin {
@@ -50,6 +51,11 @@ gradlePlugin {
         register("Hilt") {
             id = "kakaobooksearch.hilt"
             implementationClass = "com.woon.plugin.HiltPlugin"
+        }
+
+        register("Room") {
+            id = "kakaobooksearch.room"
+            implementationClass = "com.woon.plugin.RoomPlugin"
         }
     }
 }

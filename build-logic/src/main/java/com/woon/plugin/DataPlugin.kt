@@ -19,6 +19,7 @@ class DataPlugin : Plugin<Project> {
                 applyPlugin("android-library")
                 applyPlugin("kotlin-android")
                 apply("kakaobooksearch.hilt")
+                apply("kakaobooksearch.room")
             }
 
             extensions.configure<LibraryExtension> {

@@ -21,7 +21,8 @@ fun SuccessScreen(
     modifier: Modifier = Modifier,
     books: LazyPagingItems<BookUiModel>,
     onSearchTextChange: (String) -> Unit = {},
-    onFilterClick: (SearchFilterStatus) -> Unit = {}
+    onFilterClick: (SearchFilterStatus) -> Unit = {},
+    onClickFavorite: (BookUiModel) -> Unit = {}
 ){
     Column(
         modifier = Modifier
@@ -55,7 +56,8 @@ fun SuccessScreen(
             // 검색한 도서 목록
             SearchBookScreen(
                 modifier = modifier,
-                item = books
+                item = books,
+                onClickFavorite = { onClickFavorite(it)  }
             )
         }
     }

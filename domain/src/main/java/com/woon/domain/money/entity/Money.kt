@@ -54,5 +54,15 @@ data class Money(
 
         fun max(a: Money, b: Money): Money = if (a >= b) a else b
         fun min(a: Money, b: Money): Money = if (a <= b) a else b
+
+        fun fromCurrencyString(value: String, symbol: String = "₩"): Money {
+            val numeric = value
+                .replace(symbol, "")
+                .replace("원", "")
+                .replace(",", "")
+                .trim()
+
+            return Money(numeric.toDoubleOrNull() ?: 0.0)
+        }
     }
 }
