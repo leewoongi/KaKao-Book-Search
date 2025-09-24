@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -38,6 +39,7 @@ fun SearchBookScreen(
     item: LazyPagingItems<BookUiModel>,
     onClickFavorite: (BookUiModel) -> Unit = {}
 ){
+    val listState = rememberLazyListState()
     Column(
         modifier = modifier
     ) {
@@ -58,11 +60,11 @@ fun SearchBookScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .background(color = Color.White),
+            state = listState,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ){
             items(
                 count = item.itemCount,
-                key = item.itemKey { it.isbn }
             ){ index ->
                 item[index]?.let { book ->
                     BHorizontalCard(
