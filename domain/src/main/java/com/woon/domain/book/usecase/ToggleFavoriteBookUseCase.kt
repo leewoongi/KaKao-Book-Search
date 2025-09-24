@@ -9,6 +9,10 @@ class ToggleFavoriteBookUseCase
     private val bookRepository: BookRepository
 ){
     suspend operator fun invoke(book: Book){
-        bookRepository.saveFavoriteBook(book)
+        if(book.isFavorite) {
+            bookRepository.saveFavoriteBook(book)
+        } else {
+            bookRepository.deleteFavoriteBook(book)
+        }
     }
 }

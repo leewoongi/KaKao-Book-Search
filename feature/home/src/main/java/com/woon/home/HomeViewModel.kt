@@ -16,6 +16,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -63,12 +64,26 @@ class HomeViewModel
         getBooks()
     }
 
-    fun updateFavorite(bookUiModel: BookUiModel){
+    fun updateFavorite(bookUiModel: BookUiModel) {
         viewModelScope.launch {
             val book = bookUiModel.copy(
                 isFavorite = !bookUiModel.isFavorite
-            ).toDomain()
-            toggleFavoriteBookUseCase.invoke(book)
+            )
+
+            updateBooks(book)
+            toggleFavoriteBookUseCase.invoke(book.toDomain())
+        }
+    }
+
+    private fun updateBooks(bookUiModel: BookUiModel) {
+        _books.update { currentPagingData ->
+            currentPagingData.map { book ->
+                if (book.isbn == bookUiModel.isbn) {
+                    bookUiModel
+                } else {
+                    book
+                }
+            }
         }
     }
 }
