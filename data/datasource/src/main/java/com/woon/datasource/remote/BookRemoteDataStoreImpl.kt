@@ -10,11 +10,13 @@ class BookRemoteDataStoreImpl
     private val bookApi: BookApi
 ): BookRemoteDataStore {
     override suspend fun getBooks(
-        query: String
+        query: String,
+        filter: String
     ) : BookResponse {
         println("TEST TEST TEST getBook")
         return bookApi.getBooks(
-            query
+            query = query,
+            sort = filter
         )
     }
 }

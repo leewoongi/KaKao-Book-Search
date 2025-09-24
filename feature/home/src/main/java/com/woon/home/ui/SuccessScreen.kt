@@ -1,4 +1,4 @@
-package com.woon.home
+package com.woon.home.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,8 +11,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.woon.core.design.textview.BSearchBar
 import com.woon.home.model.BookUiModel
-import com.woon.home.ui.DisCountBookScreen
-import com.woon.home.ui.SearchBookScreen
+import com.woon.home.model.SearchFilterStatus
+import com.woon.home.ui.screen.DisCountBookScreen
+import com.woon.home.ui.screen.FilterScreen
+import com.woon.home.ui.screen.SearchBookScreen
 
 @Composable
 fun SuccessScreen(
@@ -20,6 +22,7 @@ fun SuccessScreen(
     books: List<BookUiModel>,
     topDiscountedBooks: List<BookUiModel>,
     onSearchTextChange: (String) -> Unit = {},
+    onFilterClick: (SearchFilterStatus) -> Unit = {}
 ){
     Column(
         modifier = Modifier
@@ -41,6 +44,15 @@ fun SuccessScreen(
                 modifier = Modifier.fillMaxSize()
             )
         } else {
+            FilterScreen(
+                modifier = modifier,
+                onClick = { onFilterClick(it) }
+            )
+
+            Spacer(
+                modifier = Modifier.height(16.dp)
+            )
+
             // 오늘의 할인
             DisCountBookScreen(
                 modifier = modifier,
