@@ -1,5 +1,6 @@
 package com.woon.datasource.local.room.dao
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -11,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface BookDao {
     @Query("SELECT * FROM books")
-    fun getAllBooks(): Flow<List<BookEntity>>
+    fun getAllBooks(): PagingSource<Int, BookEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertBook(book: BookEntity)

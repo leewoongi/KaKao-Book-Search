@@ -20,7 +20,7 @@ class BookRepositoryImpl
     private val remoteBookDataSource: RemoteBookDataSource,
     private val localBookDataSource: LocalBookDataSource
 ): BookRepository {
-    override fun getBookList(
+    override fun getRemoteBooks(
         query: String,
         filter: String,
     ): Flow<PagingData<Book>> {
@@ -32,6 +32,21 @@ class BookRepositoryImpl
             pagingSourceFactory = {
                 BookPagingSource(remoteBookDataSource, query, filter)
             }
+        ).flow.map { pagingData ->
+            pagingData.map { it.toDomain() }
+        }
+    }
+
+    override fun getLocalBooks(
+        query: String,
+        filter: String
+    ): Flow<PagingData<Book>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { localBookDataSource.getFavoriteBooks() }
         ).flow.map { pagingData ->
             pagingData.map { it.toDomain() }
         }
