@@ -1,5 +1,6 @@
 package com.woon.home
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -17,6 +18,12 @@ fun HomeScreen(
         is HomeUiState.Loading -> {
             LoadingScreen()
         }
+        is HomeUiState.Empty -> {
+            EmptyScreen(
+                modifier = Modifier.fillMaxSize(),
+                onClick = { viewModel.retry() }
+            )
+        }
         is HomeUiState.Success -> {
             SuccessScreen(
                 books = state.books,
@@ -24,7 +31,11 @@ fun HomeScreen(
             )
         }
         is HomeUiState.Error -> {
-            //Todo 에러 뷰 생성하기
+            ErrorScreen(
+                modifier = Modifier.fillMaxSize(),
+                error = state.exception,
+                onClick = { viewModel.retry() }
+            )
         }
     }
 }
