@@ -10,9 +10,12 @@ class GetBooksUseCase
 @Inject constructor(
     private val bookRepository: BookRepository
 ){
-    suspend operator fun invoke(query: String) : List<Book> {
+    suspend operator fun invoke(
+        query: String,
+        filter: String
+    ) : List<Book> {
         return try {
-            bookRepository.getBooks(query)
+            bookRepository.getBooks(query, filter)
         } catch (e: UnknownHostException) {
             throw BookException.Network(e)
         } catch (e: Exception) {

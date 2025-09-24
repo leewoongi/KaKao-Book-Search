@@ -6,6 +6,7 @@ import com.woon.domain.book.exception.BookException
 import com.woon.domain.book.usecase.GetBooksUseCase
 import com.woon.domain.book.usecase.GetTopDiscountedBooksUseCase
 import com.woon.home.mapper.toUiModel
+import com.woon.home.model.SearchFilterStatus
 import com.woon.home.state.HomeUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -35,6 +36,9 @@ class HomeViewModel
     private val _searchQuery = MutableStateFlow("")
     val searchQuery = _searchQuery.asStateFlow()
 
+    private val _filter = MutableStateFlow(SearchFilterStatus.ACCURACY)
+    val filter = _filter.asStateFlow()
+
 
     init {
         getBooks()
@@ -44,7 +48,10 @@ class HomeViewModel
         viewModelScope.launch(exceptionHandler) {
             _uiState.value = HomeUiState.Loading
 
-            val result = getBooksUseCase.invoke(searchQuery.value)
+            val result = getBooksUseCase.invoke(
+                query = searchQuery.value,
+                filter = filter.value.value
+            )
             val books = result.map { it.toUiModel() }
             val topDiscountedBooks = getTopDiscountedBooksUseCase.invoke(
                 books = result,
@@ -57,6 +64,10 @@ class HomeViewModel
                 topDiscountedBooks = topDiscountedBooks,
                 onSearchTextChange = { query ->
                     _searchQuery.value = query
+                    getBooks()
+                },
+                onFilterClick = { filterStatus ->
+                    _filter.value = filterStatus
                     getBooks()
                 }
             )

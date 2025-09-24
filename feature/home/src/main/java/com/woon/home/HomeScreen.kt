@@ -6,6 +6,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.woon.home.state.HomeUiState
+import com.woon.home.ui.ErrorScreen
+import com.woon.home.ui.LoadingScreen
+import com.woon.home.ui.SuccessScreen
 
 @Composable
 fun HomeScreen(
@@ -23,7 +26,8 @@ fun HomeScreen(
             SuccessScreen(
                 books = state.books,
                 topDiscountedBooks = state.topDiscountedBooks,
-                onSearchTextChange = state.onSearchTextChange,
+                onSearchTextChange = { state.onSearchTextChange(it) },
+                onFilterClick = { state.onFilterClick(it) }
             )
         }
         is HomeUiState.Error -> {
