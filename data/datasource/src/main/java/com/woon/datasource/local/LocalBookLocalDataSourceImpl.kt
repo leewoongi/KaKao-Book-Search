@@ -1,5 +1,6 @@
 package com.woon.datasource.local
 
+import androidx.paging.PagingSource
 import com.woon.datasource.local.LocalBookDataSource
 import com.woon.datasource.local.room.dao.BookDao
 import com.woon.datasource.local.room.entity.BookEntity
@@ -13,8 +14,8 @@ class LocalBookLocalDataSourceImpl
     private val bookDao: BookDao
 ) : LocalBookDataSource {
 
-    override suspend fun getFavoriteBooks(): List<BookEntity> {
-        TODO("Not yet implemented")
+    override fun getFavoriteBooks(): PagingSource<Int, BookEntity> {
+        return bookDao.getAllBooks()
     }
 
     override suspend fun saveFavoriteBook(entity: BookEntity) {

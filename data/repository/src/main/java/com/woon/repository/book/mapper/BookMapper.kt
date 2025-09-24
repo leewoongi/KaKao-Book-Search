@@ -6,6 +6,7 @@ import com.woon.domain.book.entity.Book
 import com.woon.domain.book.entity.BookStatus
 import com.woon.domain.money.entity.Money
 import com.woon.repository.book.ext.toDate
+import java.util.Date
 
 internal fun Document.toDomain() : Book {
     return Book (
@@ -40,5 +41,23 @@ internal fun Book.toEntity() : BookEntity {
         translators = translators.joinToString(", "),
         url = url,
         favorite = isFavorite
+    )
+}
+
+internal fun BookEntity.toDomain(): Book {
+    return Book (
+        authors = authors.split(", ").map { it.trim() },
+        contents = contents,
+        time = Date(time),
+        isbn = isbn,
+        salePrice = Money(salePrice),
+        price = Money(price),
+        publisher = publisher,
+        status = BookStatus.from(status),
+        title = title,
+        image = image,
+        translators = translators.split(", ").map { it.trim() },
+        url = url,
+        isFavorite = favorite
     )
 }
