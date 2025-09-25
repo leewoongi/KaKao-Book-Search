@@ -2,6 +2,7 @@ package com.woon.domain.book.repository
 
 import androidx.paging.PagingData
 import com.woon.domain.book.entity.Book
+import com.woon.domain.book.entity.SortType
 import kotlinx.coroutines.flow.Flow
 
 interface BookRepository {
@@ -12,7 +13,7 @@ interface BookRepository {
 
     fun getLocal(
         query: String,
-        filter: String,
+        filter: SortType,
     ): Flow<PagingData<Book>>
 
     suspend fun save(book: Book)
