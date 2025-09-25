@@ -4,10 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import androidx.paging.filter
 import androidx.paging.map
 import com.woon.domain.book.usecase.GetBooksUseCase
-import com.woon.domain.book.usecase.ToggleFavoriteBookUseCase
+import com.woon.domain.book.usecase.RemoveFavoriteBookUseCase
 import com.woon.home.mapper.toDomain
 import com.woon.home.mapper.toUiModel
 import com.woon.home.model.BookUiModel
@@ -16,7 +15,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,7 +23,7 @@ import javax.inject.Inject
 class HomeViewModel
 @Inject constructor(
     private val getBooksUseCase: GetBooksUseCase,
-    private val toggleFavoriteBookUseCase: ToggleFavoriteBookUseCase
+    private val removeFavoriteBookUseCase: RemoveFavoriteBookUseCase
 ) : ViewModel() {
 
     private val _query = MutableStateFlow("")
@@ -69,7 +67,7 @@ class HomeViewModel
             val book = bookUiModel.copy(
                 isFavorite = !bookUiModel.isFavorite
             )
-            toggleFavoriteBookUseCase.invoke(book.toDomain())
+            removeFavoriteBookUseCase.invoke(book.toDomain())
         }
     }
 }

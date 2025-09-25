@@ -6,7 +6,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.woon.domain.book.usecase.GetBooksUseCase
-import com.woon.domain.book.usecase.ToggleFavoriteBookUseCase
+import com.woon.domain.book.usecase.RemoveFavoriteBookUseCase
 import com.woon.favorite.mapper.toDomain
 import com.woon.favorite.mapper.toUiModel
 import com.woon.favorite.model.BookUiModel
@@ -22,7 +22,7 @@ import javax.inject.Inject
 class FavoriteViewModel
 @Inject constructor(
     private val getBooksUseCase: GetBooksUseCase,
-    private val toggleFavoriteBookUseCase: ToggleFavoriteBookUseCase
+    private val removeFavoriteBookUseCase: RemoveFavoriteBookUseCase
 ): ViewModel() {
 
     private val _query = MutableStateFlow("")
@@ -70,7 +70,7 @@ class FavoriteViewModel
             val book = bookUiModel.copy(
                 isFavorite = !bookUiModel.isFavorite
             )
-            toggleFavoriteBookUseCase.invoke(book.toDomain())
+            removeFavoriteBookUseCase.invoke(book.toDomain())
         }
     }
 

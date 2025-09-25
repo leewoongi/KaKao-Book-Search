@@ -20,5 +20,5 @@ interface BookRepository {
     fun getBookById(id: String): Flow<Book>
 
     suspend fun save(book: Book)
-    suspend fun update(book: Book)
+    suspend fun delete(book: Book)
 }

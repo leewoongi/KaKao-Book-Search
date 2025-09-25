@@ -30,7 +30,7 @@ fun ErrorScreen(
     ) {
         BTextView(
             text = when(error) {
-                is BookException.Network -> "네트워크 오류가 발생했습니다."
+                is BookException.NotFound -> "불러올 데이터가 없습니다."
                 else -> "알 수 없는 오류가 발생했습니다."
             },
             color = Color(0xFF111827),

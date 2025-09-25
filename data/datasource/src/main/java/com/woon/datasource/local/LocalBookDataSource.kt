@@ -13,9 +13,14 @@ interface LocalBookDataSource {
         range: Pair<Int, Int>
     ) : PagingSource<Int, BookEntity>
     suspend fun getBooksByQuery(query: String) : List<BookEntity>
-    fun getBookById(id: String) : Flow<BookEntity>
+    fun getBookById(id: String) : Flow<BookEntity?>
 
     suspend fun saveBookEntity(entity: BookEntity)
     suspend fun updateBookEntity(entity: BookEntity)
+    suspend fun deleteBookEntity(entity: BookEntity)
+    suspend fun deleteNonFavoriteBooks()
+
+    fun getCacheBookById(id: String) : Flow<BookCacheEntity?>
     suspend fun updateBookCacheEntity(entity: BookCacheEntity)
+
 }

@@ -18,6 +18,18 @@ import com.woon.domain.book.entity.SortType
 import com.woon.repository.book.mapper.toCacheEntity
 import com.woon.repository.book.mapper.toEntity
 import com.woon.repository.book.paging.BookRemoteMediator
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.runBlocking
 
 class BookRepositoryImpl
 @Inject constructor(
@@ -78,9 +90,12 @@ class BookRepositoryImpl
     }
 
     override fun getBookById(id: String): Flow<Book>  {
-        return localDataSource.getBookById(id).map {
-            it.toDomain()
-        }
+        return combine(
+            localDataSource.getBookById(id),
+            localDataSource.getCacheBookById(id)
+        ) { local, cache ->
+            local?.toDomain() ?: cache?.toDomain() ?: throw Exception("Book not found")
+        }.flowOn(Dispatchers.IO)
     }
 
     override suspend fun save(book: Book) {
@@ -88,8 +103,8 @@ class BookRepositoryImpl
         localDataSource.updateBookCacheEntity(book.toCacheEntity())
     }
 
-    override suspend fun update(book: Book) {
-        localDataSource.updateBookEntity(book.toEntity())
+    override suspend fun delete(book: Book) {
+        localDataSource.deleteBookEntity(book.toEntity())
         localDataSource.updateBookCacheEntity(book.toCacheEntity())
     }
 }

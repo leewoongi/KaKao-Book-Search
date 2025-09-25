@@ -4,7 +4,7 @@ import com.woon.domain.book.entity.Book
 import com.woon.domain.book.repository.BookRepository
 import javax.inject.Inject
 
-class ToggleFavoriteBookUseCase
+class RemoveFavoriteBookUseCase
 @Inject constructor(
     private val bookRepository: BookRepository
 ){
@@ -12,7 +12,7 @@ class ToggleFavoriteBookUseCase
         if(book.isFavorite) {
             bookRepository.save(book)
         } else {
-            bookRepository.update(book)
+            bookRepository.delete(book)
         }
     }
 }

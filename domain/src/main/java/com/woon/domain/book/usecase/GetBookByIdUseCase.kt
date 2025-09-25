@@ -13,7 +13,9 @@ class GetBookByIdUseCase
     operator fun invoke(id: String): Flow<Book> {
         return try {
             bookRepository.getBookById(id)
-        }catch (e: Exception) {
+        } catch (e: IllegalStateException) {
+           throw BookException.NotFound(e)
+        } catch (e: Exception) {
             throw BookException.Unknown(e)
         }
     }
