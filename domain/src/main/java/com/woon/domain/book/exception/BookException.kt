@@ -15,4 +15,14 @@ sealed class BookException(
     class NotFound(
         cause: Throwable? = null
     ) : BookException(cause)
+
+    class UpdateFailure(
+        cause: Throwable? = null
+    ) : BookException(cause)
+
+    class RemoveFailure(
+        cause: Throwable? = null
+    ) : BookException(cause)
+
+
 }
