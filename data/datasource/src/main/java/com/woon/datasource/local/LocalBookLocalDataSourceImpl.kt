@@ -18,11 +18,25 @@ class LocalBookLocalDataSourceImpl
 
     override fun getBooks(
         query: String,
-        filter: SortType
+        filter: SortType,
+        range: Pair<Int, Int>
     ): PagingSource<Int, BookEntity> {
         return when (filter) {
-            SortType.Ascending -> { bookDao.pagingSourceByQueryTitleAsc(query = query) }
-            SortType.Descending -> { bookDao.pagingSourceByQueryTitleDesc(query = query) }
+            SortType.Ascending -> {
+                bookDao.pagingSourceByQueryAndPriceRangeTitleAsc(
+                    query = query,
+                    minPrice = range.first,
+                    maxPrice = range.second
+                )
+            }
+
+            SortType.Descending -> {
+                bookDao.pagingSourceByQueryAndPriceRangeTitleDesc(
+                    query = query,
+                    minPrice = range.first,
+                    maxPrice = range.second
+                )
+            }
         }
     }
 

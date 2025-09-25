@@ -26,6 +26,34 @@ interface BookDao {
     @Query("SELECT * FROM books WHERE title LIKE '%' || :query || '%' ORDER BY title DESC")
     fun pagingSourceByQueryTitleDesc(query: String): PagingSource<Int, BookEntity>
 
+    /** 판매 가격에 검색어가 포함된 책들을 가격 오름차순 정렬 */
+    @Query("""
+        SELECT * FROM books 
+        WHERE title LIKE '%' || :query || '%' 
+        AND salePrice >= :minPrice 
+        AND salePrice <= :maxPrice 
+        ORDER BY title ASC
+    """)
+    fun pagingSourceByQueryAndPriceRangeTitleAsc(
+        query: String,
+        minPrice: Int,
+        maxPrice: Int
+    ): PagingSource<Int, BookEntity>
+
+    /** 판매 가격에 검색어가 포함된 책들을 가격 내림차순 정렬 */
+    @Query("""
+        SELECT * FROM books 
+        WHERE title LIKE '%' || :query || '%' 
+        AND salePrice >= :minPrice 
+        AND salePrice <= :maxPrice 
+        ORDER BY title DESC
+    """)
+    fun pagingSourceByQueryAndPriceRangeTitleDesc(
+        query: String,
+        minPrice: Int,
+        maxPrice: Int
+    ): PagingSource<Int, BookEntity>
+
     /** 로컬에 저장된 즐겨찾기 검색어로 가져오기 */
     @Query("SELECT * FROM books WHERE `query` = :query")
     suspend fun getBooksByQuery(query: String): List<BookEntity>

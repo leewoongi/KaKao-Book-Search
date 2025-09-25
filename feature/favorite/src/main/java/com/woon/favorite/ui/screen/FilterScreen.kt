@@ -19,7 +19,8 @@ import com.woon.favorite.model.SearchFilterStatus
 @Composable
 fun FilterScreen(
     modifier : Modifier = Modifier,
-    onClick: (SearchFilterStatus) -> Unit = {}
+    onClickSortFilter: (SearchFilterStatus) -> Unit = {},
+    onClickPriceFilter: () -> Unit = {}
 ){
     Row(
         modifier = modifier.fillMaxWidth(),
@@ -33,7 +34,7 @@ fun FilterScreen(
                 fontWeight = FontWeight.Bold
             ),
             modifier = Modifier.clickable(
-                onClick = { onClick(SearchFilterStatus.Ascending) }
+                onClick = { onClickSortFilter(SearchFilterStatus.ASCENDING) }
             )
         )
 
@@ -47,7 +48,7 @@ fun FilterScreen(
                 fontWeight = FontWeight.Bold
             ),
             modifier = Modifier.clickable(
-                onClick = { onClick(SearchFilterStatus.Descending) }
+                onClick = { onClickSortFilter(SearchFilterStatus.DESCENDING) }
             )
         )
 
@@ -61,7 +62,7 @@ fun FilterScreen(
                 fontWeight = FontWeight.Bold
             ),
             modifier = Modifier.clickable(
-                onClick = { onClick(SearchFilterStatus.Price) }
+                onClick = { onClickPriceFilter() }
             )
         )
     }

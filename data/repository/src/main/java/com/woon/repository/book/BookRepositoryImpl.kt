@@ -57,7 +57,8 @@ class BookRepositoryImpl
 
     override fun getLocal(
         query: String,
-        filter: SortType
+        filter: SortType,
+        range: Pair<Int, Int>
     ): Flow<PagingData<Book>> {
         return Pager(
             config = PagingConfig(
@@ -65,7 +66,11 @@ class BookRepositoryImpl
                 enablePlaceholders = false
             ),
             pagingSourceFactory = {
-                localDataSource.getBooks(query = query, filter)
+                localDataSource.getBooks(
+                    query = query,
+                    filter = filter,
+                    range = range
+                )
             }
         ).flow.map { pagingData ->
             pagingData.map { it.toDomain() }
