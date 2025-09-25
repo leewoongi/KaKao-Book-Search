@@ -13,10 +13,14 @@ import com.woon.favorite.model.BookUiModel
 import com.woon.favorite.model.SearchFilterStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -37,8 +41,6 @@ class FavoriteViewModel
     private val _range = MutableStateFlow(0 to Int.MAX_VALUE)
     val range = _range.asStateFlow()
 
-    private val _books = MutableStateFlow<PagingData<BookUiModel>>(PagingData.empty())
-    val books = _books.asStateFlow()
     private val _snackBar = MutableSharedFlow<Throwable>()
     val snackBar = _snackBar.asSharedFlow()
 
@@ -48,37 +50,34 @@ class FavoriteViewModel
         }
     }
 
-    init {
-        getBooks()
-    }
-
-    private fun getBooks() {
-        viewModelScope.launch {
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val books: Flow<PagingData<BookUiModel>> =
+        combine(
+            query,
+            filter,
+            range
+        ) { query, filter, range ->
+            Triple(query, filter, range)
+        }.flatMapLatest { (query, filter, range) ->
             getBooksUseCase.getLocalBooks(
-                query = query.value,
-                filter = filter.value.value,
-                range = range.value
+                query = query,
+                filter = filter.value,
+                range = range
             ).map { pagingData ->
                 pagingData.map { it.toUiModel() }
-            }.cachedIn(viewModelScope).collect { bookUiModel ->
-                _books.value = bookUiModel
             }
-        }
-    }
+        }.cachedIn(viewModelScope)
 
     fun updateQuery(query: String) {
         _query.value = query
-        getBooks()
     }
 
     fun updateFilter(filter: SearchFilterStatus) {
         _filter.value = filter
-        getBooks()
     }
 
     fun updatePriceRange(min: Int, max: Int) {
         _range.value = min to max
-        getBooks()
     }
 
     fun updateFavorite(bookUiModel: BookUiModel) {
