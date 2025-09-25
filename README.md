@@ -18,7 +18,6 @@
 - [모듈 구조](#모듈-구조)
 - [빌드 로직: build-logic](#빌드-로직-build-logic)
 - [디자인 시스템](#디자인-시스템)
-- [실행 방법](#실행-방법)
 - [기술 스택](#기술-스택)
 
 ---
@@ -138,26 +137,27 @@ kakao-book-search/
 
 ---
 
+### 개발 환경 및 빌드 버전
+- OS/IDE: Android Studio (최신), JDK 17+
+- Gradle Wrapper: 8.13 (`gradle/wrapper/gradle-wrapper.properties`)
+- Android Gradle Plugin(AGP): 8.12.3 (`libs.versions.toml`)
+- Kotlin: 2.2.20 (`libs.versions.toml`)
+- Compose BOM: 2025.09.00
+- Paging: 3.3.6 (runtime) / 3.4.0-alpha04 (compose)
+- Hilt: 2.57.1
+- Retrofit/OkHttp: 3.0.0 / 5.1.0
+- Room: 2.8.0
+
+> 버전 관리는 Version Catalog(`gradle/libs.versions.toml`)로 일관되게 유지합니다.
+
+---
+
 ### 디자인 시스템
 - `core/design`에 버튼, 카드, 배지, 타이포그래피, 서치바 등 **재사용 가능한 UI 컴포넌트**를 제공합니다.
 - 공통 인터랙션/스타일 가이드로 **일관된 UX**와 **개발 생산성** 향상.
 
 예)
 - `BHorizontalCard`, `BVerticalCard`, `BIconButton`, `BSearchBar`, `BTextView`, `Skeleton` 등
-
----
-
-### 실행 방법
-1) 로컬 환경
-- Android Studio 최신 버전에서 열기
-- JDK 17 이상 권장
-- `gradlew assembleDebug` 또는 IDE에서 Run
-
-2) 환경 변수/키
-- 카카오 API 키 등 네트워크 키가 필요할 수 있습니다. 로컬 `local.properties` 혹은 안전한 주입 방식을 사용하세요.
-
-3) 모듈 플러그인 적용
-- 각 모듈의 `build.gradle.kts`에 `build-logic` 플러그인을 적용하도록 구성되어 있습니다. 별도 설정 없이 빌드 가능합니다.
 
 ---
 
