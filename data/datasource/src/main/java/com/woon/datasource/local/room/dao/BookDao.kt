@@ -18,6 +18,14 @@ interface BookDao {
     @Query("SELECT * FROM books")
     fun pagingSourceAll(): PagingSource<Int, BookEntity>
 
+    /** 제목에 검색어가 포함된 책들을 제목 오름차순 정렬*/
+    @Query("SELECT * FROM books WHERE title LIKE '%' || :query || '%' ORDER BY title ASC")
+    fun pagingSourceByQueryTitleAsc(query: String): PagingSource<Int, BookEntity>
+
+    /** 제목에 검색어가 포함된 책들을 제목 내림차순 정렬 */
+    @Query("SELECT * FROM books WHERE title LIKE '%' || :query || '%' ORDER BY title DESC")
+    fun pagingSourceByQueryTitleDesc(query: String): PagingSource<Int, BookEntity>
+
     /** 로컬에 저장된 즐겨찾기 검색어로 가져오기 */
     @Query("SELECT * FROM books WHERE `query` = :query")
     suspend fun getBooksByQuery(query: String): List<BookEntity>

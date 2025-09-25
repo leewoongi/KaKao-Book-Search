@@ -14,6 +14,7 @@ import javax.inject.Inject
 import androidx.paging.map
 import com.woon.datasource.local.room.database.AppDatabase
 import com.woon.datasource.remote.RemoteBookDataSource
+import com.woon.domain.book.entity.SortType
 import com.woon.repository.book.mapper.toCacheEntity
 import com.woon.repository.book.mapper.toEntity
 import com.woon.repository.book.paging.BookRemoteMediator
@@ -56,14 +57,16 @@ class BookRepositoryImpl
 
     override fun getLocal(
         query: String,
-        filter: String
+        filter: SortType
     ): Flow<PagingData<Book>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 20,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { localDataSource.getBooks(query = query) }
+            pagingSourceFactory = {
+                localDataSource.getBooks(query = query, filter)
+            }
         ).flow.map { pagingData ->
             pagingData.map { it.toDomain() }
         }

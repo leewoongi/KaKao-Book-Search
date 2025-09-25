@@ -2,8 +2,10 @@ package com.woon.domain.book.usecase
 
 import androidx.paging.PagingData
 import com.woon.domain.book.entity.Book
+import com.woon.domain.book.entity.SortType
 import com.woon.domain.book.repository.BookRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class GetBooksUseCase
@@ -21,6 +23,8 @@ class GetBooksUseCase
         query: String,
         filter: String
     ): Flow<PagingData<Book>> {
-        return bookRepository.getLocal(query, filter)
+        return bookRepository.getLocal(
+            query = query,
+            filter = SortType.from(filter))
     }
 }

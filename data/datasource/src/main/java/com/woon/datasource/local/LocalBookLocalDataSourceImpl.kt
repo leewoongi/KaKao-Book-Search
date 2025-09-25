@@ -5,6 +5,7 @@ import com.woon.datasource.local.room.dao.BookCacheDao
 import com.woon.datasource.local.room.dao.BookDao
 import com.woon.datasource.local.room.entity.BookCacheEntity
 import com.woon.datasource.local.room.entity.BookEntity
+import com.woon.domain.book.entity.SortType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -14,10 +15,15 @@ class LocalBookLocalDataSourceImpl
     private val bookDao: BookDao,
     private val cacheDao: BookCacheDao
 ) : LocalBookDataSource {
-    
-    override fun getBooks(query: String): PagingSource<Int, BookEntity> {
-        return if(query.isEmpty()) bookDao.pagingSourceAll()
-        else bookDao.pagingSourceByQuery(query = query)
+
+    override fun getBooks(
+        query: String,
+        filter: SortType
+    ): PagingSource<Int, BookEntity> {
+        return when (filter) {
+            SortType.Ascending -> { bookDao.pagingSourceByQueryTitleAsc(query = query) }
+            SortType.Descending -> { bookDao.pagingSourceByQueryTitleDesc(query = query) }
+        }
     }
 
     override suspend fun getBooksByQuery(query: String): List<BookEntity> {
