@@ -2,6 +2,7 @@ package com.woon.favorite
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,6 +29,7 @@ fun FavoriteScreen(
 
     val viewModel = hiltViewModel<FavoriteViewModel>()
     val books = viewModel.books.collectAsLazyPagingItems()
+    val query by viewModel.query.collectAsState()
 
     var showPriceFilter by remember { mutableStateOf(false) }
     var priceRange by remember { mutableStateOf(0 to Int.MAX_VALUE) }
@@ -58,6 +60,7 @@ fun FavoriteScreen(
         is LoadState.NotLoading -> {
             SuccessScreen(
                 books = books,
+                query = query,
                 onSearchTextChange = { viewModel.updateQuery(it) },
                 onClickSortFilter = { viewModel.updateFilter(it) },
                 onClickFavorite = { viewModel.updateFavorite(it) },

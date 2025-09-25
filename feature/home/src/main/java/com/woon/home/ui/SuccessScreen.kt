@@ -19,6 +19,7 @@ import com.woon.home.ui.screen.SearchBookScreen
 @Composable
 fun SuccessScreen(
     modifier: Modifier = Modifier,
+    query : String,
     books: LazyPagingItems<BookUiModel>,
     onSearchTextChange: (String) -> Unit = {},
     onFilterClick: (SearchFilterStatus) -> Unit = {},
@@ -33,6 +34,7 @@ fun SuccessScreen(
         BSearchBar(
             modifier = modifier
                 .fillMaxWidth(),
+            query = query,
             onSearchTextChange = onSearchTextChange,
         )
 

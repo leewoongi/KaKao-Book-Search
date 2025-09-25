@@ -2,6 +2,8 @@ package com.woon.home
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.paging.LoadState
@@ -22,6 +24,7 @@ fun HomeScreen(
 
     val viewModel = hiltViewModel<HomeViewModel>()
     val books = viewModel.books.collectAsLazyPagingItems()
+    val query by viewModel.query.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.snackBar.collect { error ->
@@ -49,6 +52,7 @@ fun HomeScreen(
         is LoadState.NotLoading -> {
             SuccessScreen(
                 books = books,
+                query = query,
                 onSearchTextChange = { viewModel.updateQuery(it) },
                 onFilterClick = { viewModel.updateFilter(it) },
                 onClickFavorite = { viewModel.updateFavorite(it) },
