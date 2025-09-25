@@ -26,7 +26,7 @@ fun FavoriteBookScreen(
     modifier: Modifier = Modifier,
     item: LazyPagingItems<BookUiModel>,
     onClickFavorite: (BookUiModel) -> Unit = {},
-    onClick: () -> Unit = {}
+    onClick: (BookUiModel) -> Unit = {}
 ){
     val listState = rememberLazyListState()
     Column(
@@ -66,7 +66,7 @@ fun FavoriteBookScreen(
                         price = book.price,
                         salePrice = book.salePrice,
                         isDisCount = book.isDiscount,
-                        onClick = { onClick() },
+                        onClick = { onClick(book) },
                         onIconClick = { onClickFavorite(book) }
                     )
                 }

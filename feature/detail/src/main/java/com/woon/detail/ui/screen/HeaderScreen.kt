@@ -10,29 +10,31 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.woon.core.design.button.BIconButton
+import com.woon.detail.model.BookUiModel
 
 @Composable
 fun HeaderScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    item: BookUiModel,
+    onBack: () -> Unit,
+    onClickFavorite: () -> Unit,
 ){
     Row(
         modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Icon(
-            Icons.AutoMirrored.Filled.ArrowBack,
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.5f)
+        BIconButton(
+            icon = Icons.AutoMirrored.Filled.ArrowBack,
+            onClick = { onBack() }
         )
 
         BIconButton(
@@ -48,11 +50,9 @@ fun HeaderScreen(
                     shape = CircleShape
                 )
                 .size(24.dp),
-            icon = Icons.Default.FavoriteBorder,
-//                icon = if (isSelect) Icons.Filled.Favorite else Icons.Default.FavoriteBorder,
-            iconColor = Color.White,
-//                iconColor = if (isSelect) Color(0xFFE50914) else Color.White,
-            onClick = { }
+                icon = if (item.isFavorite) Icons.Filled.Favorite else Icons.Default.FavoriteBorder,
+                iconColor = if (item.isFavorite) Color(0xFFE50914) else Color.White,
+            onClick = { onClickFavorite() }
         )
     }
 }

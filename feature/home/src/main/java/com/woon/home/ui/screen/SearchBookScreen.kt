@@ -38,7 +38,7 @@ fun SearchBookScreen(
     modifier: Modifier = Modifier,
     item: LazyPagingItems<BookUiModel>,
     onClickFavorite: (BookUiModel) -> Unit = {},
-    onClick: () -> Unit = {}
+    onClick: (BookUiModel) -> Unit = {}
 ){
     val listState = rememberLazyListState()
     Column(
@@ -78,7 +78,7 @@ fun SearchBookScreen(
                         price = book.price,
                         salePrice = book.salePrice,
                         isDisCount = book.isDiscount,
-                        onClick = { onClick() },
+                        onClick = { onClick(book) },
                         onIconClick = { onClickFavorite(book) }
                     )
                 }
