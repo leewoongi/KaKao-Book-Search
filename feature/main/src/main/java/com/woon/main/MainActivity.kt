@@ -7,8 +7,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.woon.kakaobooksearch.ui.theme.KaKaoBookSearchTheme
 import com.woon.main.ui.BottomNavigationBar
@@ -23,7 +25,13 @@ class MainActivity : ComponentActivity() {
         setContent {
             KaKaoBookSearchTheme {
                 val navController = rememberNavController()
-                val isVisible = true
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                val currentRoute = navBackStackEntry?.destination?.route
+                val isVisible = when(currentRoute){
+                    "detail/{bookId}" -> false
+                    else -> true
+                }
+
                 Scaffold(
                     modifier = Modifier
                         .fillMaxSize(),

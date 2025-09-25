@@ -48,7 +48,7 @@ fun FavoriteScreen(
                 onClickSortFilter = { viewModel.updateFilter(it) },
                 onClickFavorite = { viewModel.updateFavorite(it) },
                 onClickPriceFilter = { showPriceFilter = true },
-                onClick = { navController.navigate("detail") }
+                onClick = { navController.navigate("detail/${it.isbn}") }
             )
         }
     }
