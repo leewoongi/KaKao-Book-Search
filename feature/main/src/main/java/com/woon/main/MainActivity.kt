@@ -34,8 +34,9 @@ class MainActivity : ComponentActivity() {
 
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentRoute = navBackStackEntry?.destination?.route
-                val isVisible = when(currentRoute){
-                    "detail/{bookId}" -> false
+
+                val isVisible = when {
+                    (currentRoute?.startsWith("detail/") == true ) -> false
                     else -> true
                 }
 
