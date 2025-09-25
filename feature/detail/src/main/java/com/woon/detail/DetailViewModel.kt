@@ -13,7 +13,9 @@ import com.woon.domain.book.usecase.ToggleFavoriteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,12 +32,16 @@ class DetailViewModel
     private val bookId: String = checkNotNull(savedStateHandle["bookId"])
     private val _book = MutableStateFlow<DetailUiState>(DetailUiState.Loading)
     val book = _book.asStateFlow()
-
-    private val errorHandle = CoroutineExceptionHandler { _, throwable ->
+    private val _snackBar = MutableSharedFlow<Throwable>()
+    val snackBar = _snackBar.asSharedFlow()
+    private val errorHandler = CoroutineExceptionHandler { _, throwable ->
         _book.value = DetailUiState.Error(
             error = throwable,
             onRetry = { getBook() }
         )
+        viewModelScope.launch {
+            _snackBar.emit(throwable)
+        }
     }
 
     init {
@@ -43,7 +49,7 @@ class DetailViewModel
     }
 
     private fun getBook() {
-        viewModelScope.launch(errorHandle) {
+        viewModelScope.launch(errorHandler) {
             _book.value = DetailUiState.Loading
             delay(1000)
             getBookUseCase.invoke(bookId).collect { book ->
@@ -57,7 +63,7 @@ class DetailViewModel
     }
 
     private fun updateFavorite(bookUiModel: BookUiModel) {
-        viewModelScope.launch {
+        viewModelScope.launch(errorHandler) {
             val book = bookUiModel.copy(
                 isFavorite = !bookUiModel.isFavorite
             )
@@ -66,7 +72,7 @@ class DetailViewModel
     }
 
     fun remove() {
-        viewModelScope.launch {
+        viewModelScope.launch(errorHandler) {
             removeFavoriteUseCase.invoke()
         }
     }

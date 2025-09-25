@@ -12,7 +12,10 @@ import com.woon.home.mapper.toUiModel
 import com.woon.home.model.BookUiModel
 import com.woon.home.model.SearchFilterStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -34,6 +37,15 @@ class HomeViewModel
 
     private val _books = MutableStateFlow<PagingData<BookUiModel>>(PagingData.empty())
     val books = _books.asStateFlow()
+
+    private val _snackBar = MutableSharedFlow<Throwable>()
+    val snackBar = _snackBar.asSharedFlow()
+
+    private val errorHandler = CoroutineExceptionHandler { _, throwable ->
+        viewModelScope.launch {
+            _snackBar.emit(throwable)
+        }
+    }
 
     init {
         getBooks()
@@ -63,7 +75,7 @@ class HomeViewModel
     }
 
     fun updateFavorite(bookUiModel: BookUiModel) {
-        viewModelScope.launch {
+        viewModelScope.launch(errorHandler) {
             val book = bookUiModel.copy(
                 isFavorite = !bookUiModel.isFavorite
             )
