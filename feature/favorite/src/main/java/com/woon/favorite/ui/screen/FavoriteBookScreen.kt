@@ -25,7 +25,8 @@ import com.woon.favorite.ui.screen.footer.PagingLoadStateFooter
 fun FavoriteBookScreen(
     modifier: Modifier = Modifier,
     item: LazyPagingItems<BookUiModel>,
-    onClickFavorite: (BookUiModel) -> Unit = {}
+    onClickFavorite: (BookUiModel) -> Unit = {},
+    onClick: () -> Unit = {}
 ){
     val listState = rememberLazyListState()
     Column(
@@ -65,7 +66,7 @@ fun FavoriteBookScreen(
                         price = book.price,
                         salePrice = book.salePrice,
                         isDisCount = book.isDiscount,
-                        onClick = {  },
+                        onClick = { onClick() },
                         onIconClick = { onClickFavorite(book) }
                     )
                 }

@@ -22,8 +22,9 @@ fun SuccessScreen(
     books: LazyPagingItems<BookUiModel>,
     onSearchTextChange: (String) -> Unit = {},
     onFilterClick: (SearchFilterStatus) -> Unit = {},
-    onClickFavorite: (BookUiModel) -> Unit = {}
-){
+    onClickFavorite: (BookUiModel) -> Unit = {},
+    onClick: () -> Unit = {}
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -39,7 +40,7 @@ fun SuccessScreen(
             modifier = Modifier.height(16.dp)
         )
 
-        if(books.itemCount == 0){
+        if (books.itemCount == 0) {
             EmptyScreen(
                 modifier = Modifier.fillMaxSize()
             )
@@ -57,7 +58,8 @@ fun SuccessScreen(
             SearchBookScreen(
                 modifier = modifier,
                 item = books,
-                onClickFavorite = { onClickFavorite(it)  }
+                onClickFavorite = { onClickFavorite(it) },
+                onClick = { onClick() }
             )
         }
     }

@@ -23,8 +23,9 @@ fun SuccessScreen(
     onSearchTextChange: (String) -> Unit = {},
     onClickSortFilter: (SearchFilterStatus) -> Unit = {},
     onClickFavorite: (BookUiModel) -> Unit = {},
-    onClickPriceFilter: () -> Unit = {}
-){
+    onClickPriceFilter: () -> Unit = {},
+    onClick: () -> Unit = {}
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -40,7 +41,7 @@ fun SuccessScreen(
             modifier = Modifier.height(16.dp)
         )
 
-        if(books.itemCount == 0){
+        if (books.itemCount == 0) {
             EmptyScreen(
                 modifier = Modifier.fillMaxSize()
             )
@@ -59,7 +60,8 @@ fun SuccessScreen(
             FavoriteBookScreen(
                 modifier = modifier,
                 item = books,
-                onClickFavorite = { onClickFavorite(it)  }
+                onClickFavorite = { onClickFavorite(it) },
+                onClick = { onClick() }
             )
         }
     }

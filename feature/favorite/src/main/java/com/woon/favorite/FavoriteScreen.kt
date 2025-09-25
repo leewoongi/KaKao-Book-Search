@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.woon.core.navigation.LocalNavController
 import com.woon.favorite.ui.ErrorScreen
 import com.woon.favorite.ui.LoadingScreen
 import com.woon.favorite.ui.SuccessScreen
@@ -19,6 +20,8 @@ import com.woon.favorite.ui.bottomsheet.PriceFilterBottomSheet
 fun FavoriteScreen(
     modifier: Modifier = Modifier
 ){
+    val navController = LocalNavController.current
+
     val viewModel = hiltViewModel<FavoriteViewModel>()
     val books = viewModel.books.collectAsLazyPagingItems()
 
@@ -44,7 +47,8 @@ fun FavoriteScreen(
                 onSearchTextChange = { viewModel.updateQuery(it) },
                 onClickSortFilter = { viewModel.updateFilter(it) },
                 onClickFavorite = { viewModel.updateFavorite(it) },
-                onClickPriceFilter = { showPriceFilter = true }
+                onClickPriceFilter = { showPriceFilter = true },
+                onClick = { navController.navigate("detail") }
             )
         }
     }

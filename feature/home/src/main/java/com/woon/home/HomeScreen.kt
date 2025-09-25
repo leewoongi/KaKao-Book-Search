@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.woon.core.navigation.LocalNavController
 import com.woon.home.ui.ErrorScreen
 import com.woon.home.ui.LoadingScreen
 import com.woon.home.ui.SuccessScreen
@@ -13,6 +14,7 @@ import com.woon.home.ui.SuccessScreen
 fun HomeScreen(
     modifier: Modifier = Modifier
 ){
+    val navController = LocalNavController.current
     val viewModel = hiltViewModel<HomeViewModel>()
     val books = viewModel.books.collectAsLazyPagingItems()
 
@@ -33,7 +35,8 @@ fun HomeScreen(
                 books = books,
                 onSearchTextChange = { viewModel.updateQuery(it) },
                 onFilterClick = { viewModel.updateFilter(it) },
-                onClickFavorite = { viewModel.updateFavorite(it) }
+                onClickFavorite = { viewModel.updateFavorite(it) },
+                onClick = { navController.navigate("detail") }
             )
         }
     }
