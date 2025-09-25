@@ -9,24 +9,6 @@ import com.woon.domain.money.entity.Money
 import com.woon.repository.book.ext.toDate
 import java.util.Date
 
-internal fun Document.toDomain() : Book {
-    return Book (
-        authors = authors,
-        contents = contents,
-        time = datetime.toDate(),
-        isbn = isbn,
-        salePrice = Money(salePrice),
-        price = Money(price),
-        publisher = publisher,
-        status = BookStatus.from(status),
-        title = title,
-        image = thumbnail,
-        translators = translators,
-        url = url,
-        isFavorite = false
-    )
-}
-
 internal fun Book.toEntity() : BookEntity {
     return BookEntity(
         isbn = isbn,
@@ -41,7 +23,27 @@ internal fun Book.toEntity() : BookEntity {
         image = image,
         translators = translators.joinToString(", "),
         url = url,
-        favorite = isFavorite
+        favorite = isFavorite,
+        query = query
+    )
+}
+
+internal fun Book.toCacheEntity() : BookCacheEntity {
+    return BookCacheEntity(
+        isbn = isbn,
+        title = title,
+        authors = authors.joinToString(", "),
+        contents = contents,
+        time = time.time,
+        price = price.value,
+        salePrice = salePrice.value,
+        publisher = publisher,
+        status = status.name,
+        image = image,
+        translators = translators.joinToString(", "),
+        url = url,
+        favorite = isFavorite,
+        query = query
     )
 }
 
@@ -59,15 +61,13 @@ internal fun BookEntity.toDomain(): Book {
         image = image,
         translators = translators.split(", ").map { it.trim() },
         url = url,
-        isFavorite = favorite
+        isFavorite = favorite,
+        query = query
     )
 }
 
 internal fun Document.toCacheEntity(
     query: String,
-    id: String,
-    page: Int,
-    position: Int
 ): BookCacheEntity {
     return BookCacheEntity(
         isbn = isbn,
@@ -84,9 +84,6 @@ internal fun Document.toCacheEntity(
         url = url,
         favorite = false,
         query = query,
-        id = id,
-        page = page,
-        position = position
     )
 }
 
@@ -104,6 +101,7 @@ internal fun BookCacheEntity.toDomain(): Book {
         image = image,
         translators = translators.split(", ").map { it.trim() },
         url = url,
-        isFavorite = favorite
+        isFavorite = favorite,
+        query = query
     )
 }

@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "df9f8fc5a4e28bda003a424580a69224",
+    "identityHash": "88295eee570286b6fb43c8ec8a7a4688",
     "entities": [
       {
         "tableName": "books",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`isbn` TEXT NOT NULL, `title` TEXT NOT NULL, `authors` TEXT NOT NULL, `contents` TEXT NOT NULL, `time` INTEGER NOT NULL, `price` REAL NOT NULL, `salePrice` REAL NOT NULL, `publisher` TEXT NOT NULL, `status` TEXT NOT NULL, `image` TEXT NOT NULL, `translators` TEXT NOT NULL, `url` TEXT NOT NULL, `favorite` INTEGER NOT NULL, PRIMARY KEY(`isbn`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`isbn` TEXT NOT NULL, `title` TEXT NOT NULL, `authors` TEXT NOT NULL, `contents` TEXT NOT NULL, `time` INTEGER NOT NULL, `price` REAL NOT NULL, `salePrice` REAL NOT NULL, `publisher` TEXT NOT NULL, `status` TEXT NOT NULL, `image` TEXT NOT NULL, `translators` TEXT NOT NULL, `url` TEXT NOT NULL, `favorite` INTEGER NOT NULL, `query` TEXT NOT NULL, PRIMARY KEY(`isbn`))",
         "fields": [
           {
             "fieldPath": "isbn",
@@ -84,6 +84,12 @@
             "fieldPath": "favorite",
             "columnName": "favorite",
             "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "query",
+            "columnName": "query",
+            "affinity": "TEXT",
             "notNull": true
           }
         ],
@@ -96,14 +102,8 @@
       },
       {
         "tableName": "books_cache",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `isbn` TEXT NOT NULL, `title` TEXT NOT NULL, `authors` TEXT NOT NULL, `contents` TEXT NOT NULL, `time` INTEGER NOT NULL, `price` REAL NOT NULL, `salePrice` REAL NOT NULL, `publisher` TEXT NOT NULL, `status` TEXT NOT NULL, `image` TEXT NOT NULL, `translators` TEXT NOT NULL, `url` TEXT NOT NULL, `favorite` INTEGER NOT NULL, `query` TEXT NOT NULL, `page` INTEGER NOT NULL, `position` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`isbn` TEXT NOT NULL, `title` TEXT NOT NULL, `authors` TEXT NOT NULL, `contents` TEXT NOT NULL, `time` INTEGER NOT NULL, `price` REAL NOT NULL, `salePrice` REAL NOT NULL, `publisher` TEXT NOT NULL, `status` TEXT NOT NULL, `image` TEXT NOT NULL, `translators` TEXT NOT NULL, `url` TEXT NOT NULL, `favorite` INTEGER NOT NULL, `query` TEXT NOT NULL, PRIMARY KEY(`isbn`))",
         "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "TEXT",
-            "notNull": true
-          },
           {
             "fieldPath": "isbn",
             "columnName": "isbn",
@@ -187,40 +187,22 @@
             "columnName": "query",
             "affinity": "TEXT",
             "notNull": true
-          },
-          {
-            "fieldPath": "page",
-            "columnName": "page",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "position",
-            "columnName": "position",
-            "affinity": "INTEGER",
-            "notNull": true
           }
         ],
         "primaryKey": {
           "autoGenerate": false,
           "columnNames": [
-            "id"
+            "isbn"
           ]
         }
       },
       {
         "tableName": "remote_keys",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `query` TEXT NOT NULL, `prevKey` INTEGER, `nextKey` INTEGER, `currentPage` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `prevKey` INTEGER, `nextKey` INTEGER, `currentPage` INTEGER NOT NULL, `isEnd` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "query",
-            "columnName": "query",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -239,6 +221,12 @@
             "columnName": "currentPage",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "isEnd",
+            "columnName": "isEnd",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -251,7 +239,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'df9f8fc5a4e28bda003a424580a69224')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '88295eee570286b6fb43c8ec8a7a4688')"
     ]
   }
 }

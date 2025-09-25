@@ -34,4 +34,5 @@ data class BookEntity(
     val translators: String,
     val url: String,
     val favorite: Boolean,
+    val query: String
 )

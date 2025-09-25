@@ -23,7 +23,8 @@ internal fun Book.toUiModel() : BookUiModel {
         image = image,
         translators = translators,
         url = url,
-        isFavorite = isFavorite
+        isFavorite = isFavorite,
+        query = query
     )
 }
 
@@ -41,6 +42,7 @@ internal fun BookUiModel.toDomain() : Book {
         image = image,
         translators = translators,
         url = url,
-        isFavorite = isFavorite
+        isFavorite = isFavorite,
+        query = query
     )
 }

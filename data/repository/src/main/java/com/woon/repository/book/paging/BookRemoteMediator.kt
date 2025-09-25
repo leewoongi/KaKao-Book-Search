@@ -13,7 +13,6 @@ import com.woon.datasource.remote.RemoteBookDataSource
 import com.woon.repository.book.mapper.toCacheEntity
 import retrofit2.HttpException
 import java.io.IOException
-import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalPagingApi::class)
 class BookRemoteMediator(
@@ -33,27 +32,17 @@ class BookRemoteMediator(
     ): MediatorResult {
         return try {
             val page = when (loadType) {
-                LoadType.REFRESH -> {
-                    STARTING_PAGE_INDEX
-                }
-                LoadType.PREPEND -> {
-                    return MediatorResult.Success(endOfPaginationReached = true)
-                }
+                LoadType.REFRESH -> { STARTING_PAGE_INDEX }
+                LoadType.PREPEND -> { return MediatorResult.Success(endOfPaginationReached = true) }
                 LoadType.APPEND -> {
-                    val lastItem = state.lastItemOrNull()
-                    if (lastItem == null) {
+                    val item = state.lastItemOrNull()
+                    if(item == null) {
                         return MediatorResult.Success(endOfPaginationReached = false)
+                    } else {
+                        val key = remoteKeysDao.getLastRemoteKey(item.isbn)
+                        val nextPage = key?.nextKey ?: return MediatorResult.Success(endOfPaginationReached = true)
+                        nextPage
                     }
-
-                    val remoteKeys = remoteKeysDao.getRemoteKeys("$query#${lastItem.isbn}")
-                    val nextPage = remoteKeys?.nextKey
-
-                    if (nextPage == null) {
-                        return MediatorResult.Success(
-                            endOfPaginationReached = remoteKeys != null
-                        )
-                    }
-                    nextPage
                 }
             }
 
@@ -65,47 +54,39 @@ class BookRemoteMediator(
                 size = state.config.pageSize
             )
 
-            val endOfPaginationReached = response.meta.isEnd
-
             db.withTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    cacheDao.clearByQuery(query)
-                    remoteKeysDao.clearByQuery(query)
+                    cacheDao.deleteAll()
+                    remoteKeysDao.clearAll()
                 }
 
                 val prevKey = if (page <= STARTING_PAGE_INDEX) null else page - 1
-                val nextKey = if (endOfPaginationReached) null else page + 1
+                val nextKey = if (response.meta.isEnd) null else page + 1
 
                 val keys = response.documents.map { doc ->
                     RemoteKeys(
-                        id = "$query#${doc.isbn}",
-                        query = query,
+                        id = doc.isbn,
                         prevKey = prevKey,
                         nextKey = nextKey,
-                        currentPage = page
+                        currentPage = page,
+                        isEnd = response.meta.isEnd
                     )
                 }
+
                 remoteKeysDao.insertAll(keys)
 
-                val favoriteIsbns = localDataSource.getFavoriteIsbns()
-                val startPosition = if (loadType == LoadType.REFRESH) 0
-                else ((page - 1) * state.config.pageSize)
-
-                val entities = response.documents.mapIndexed { index, doc ->
-                    doc.toCacheEntity(
-                        query,
-                        "$query#${doc.isbn}",
-                        page = page,
-                        position = startPosition + index
+                val local = localDataSource.getAll().map { it.isbn }.toSet()
+                val new = response.documents.map { book ->
+                    book.toCacheEntity(
+                        query = query
                     ).copy(
-                        favorite = favoriteIsbns.contains(doc.isbn),
+                        favorite = local.contains(book.isbn)
                     )
                 }
-                cacheDao.insertAll(entities)
+
+                cacheDao.insertAll(new)
             }
-
-            MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
-
+            MediatorResult.Success(endOfPaginationReached = response.meta.isEnd)
         } catch (e: IOException) {
             MediatorResult.Error(e)
         } catch (e: HttpException) {

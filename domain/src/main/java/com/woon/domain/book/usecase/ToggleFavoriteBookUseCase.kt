@@ -10,9 +10,9 @@ class ToggleFavoriteBookUseCase
 ){
     suspend operator fun invoke(book: Book){
         if(book.isFavorite) {
-            bookRepository.saveFavoriteBook(book)
+            bookRepository.save(book)
         } else {
-            bookRepository.deleteFavoriteBook(book)
+            bookRepository.update(book)
         }
     }
 }

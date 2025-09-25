@@ -16,4 +16,5 @@ data class BookUiModel(
     val translators: List<String>,
     val url: String,
     val isFavorite: Boolean,
+    val query: String
 )

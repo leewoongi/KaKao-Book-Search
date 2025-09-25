@@ -66,21 +66,7 @@ class FavoriteViewModel
             val book = bookUiModel.copy(
                 isFavorite = !bookUiModel.isFavorite
             )
-
-            updateBooks(book)
             toggleFavoriteBookUseCase.invoke(book.toDomain())
-        }
-    }
-
-    private fun updateBooks(bookUiModel: BookUiModel) {
-        _books.update { currentPagingData ->
-            currentPagingData.map { book ->
-                if (book.isbn == bookUiModel.isbn) {
-                    bookUiModel
-                } else {
-                    book
-                }
-            }
         }
     }
 }

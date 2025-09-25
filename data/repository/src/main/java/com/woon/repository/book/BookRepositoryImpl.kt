@@ -8,13 +8,13 @@ import com.woon.datasource.local.LocalBookDataSource
 import com.woon.domain.book.entity.Book
 import com.woon.domain.book.repository.BookRepository
 import com.woon.repository.book.mapper.toDomain
-import com.woon.repository.book.paging.BookPagingSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import androidx.paging.map
 import com.woon.datasource.local.room.database.AppDatabase
 import com.woon.datasource.remote.RemoteBookDataSource
+import com.woon.repository.book.mapper.toCacheEntity
 import com.woon.repository.book.mapper.toEntity
 import com.woon.repository.book.paging.BookRemoteMediator
 
@@ -26,7 +26,7 @@ class BookRepositoryImpl
 ): BookRepository {
 
     @OptIn(ExperimentalPagingApi::class)
-    override fun getRemoteBooks(
+    override fun getRemote(
         query: String,
         filter: String,
     ): Flow<PagingData<Book>> {
@@ -54,7 +54,7 @@ class BookRepositoryImpl
         }
     }
 
-    override fun getLocalBooks(
+    override fun getLocal(
         query: String,
         filter: String
     ): Flow<PagingData<Book>> {
@@ -63,17 +63,19 @@ class BookRepositoryImpl
                 pageSize = 20,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { localDataSource.getBooks() }
+            pagingSourceFactory = { localDataSource.getBooks(query = query) }
         ).flow.map { pagingData ->
             pagingData.map { it.toDomain() }
         }
     }
 
-    override suspend fun saveFavoriteBook(book: Book) {
-        localDataSource.saveFavoriteBook(book.toEntity())
+    override suspend fun save(book: Book) {
+        localDataSource.saveBookEntity(book.toEntity())
+        localDataSource.updateBookCacheEntity(book.toCacheEntity())
     }
 
-    override suspend fun deleteFavoriteBook(book: Book) {
-        localDataSource.deleteFavoriteBook(book.toEntity())
+    override suspend fun update(book: Book) {
+        localDataSource.updateBookEntity(book.toEntity())
+        localDataSource.updateBookCacheEntity(book.toCacheEntity())
     }
 }
