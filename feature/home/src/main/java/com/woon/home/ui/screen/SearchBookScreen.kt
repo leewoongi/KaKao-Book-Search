@@ -37,7 +37,8 @@ import com.woon.home.ui.screen.footer.PagingLoadStateFooter
 fun SearchBookScreen(
     modifier: Modifier = Modifier,
     item: LazyPagingItems<BookUiModel>,
-    onClickFavorite: (BookUiModel) -> Unit = {}
+    onClickFavorite: (BookUiModel) -> Unit = {},
+    onClick: () -> Unit = {}
 ){
     val listState = rememberLazyListState()
     Column(
@@ -77,7 +78,7 @@ fun SearchBookScreen(
                         price = book.price,
                         salePrice = book.salePrice,
                         isDisCount = book.isDiscount,
-                        onClick = {  },
+                        onClick = { onClick() },
                         onIconClick = { onClickFavorite(book) }
                     )
                 }
