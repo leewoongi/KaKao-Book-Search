@@ -77,6 +77,12 @@ class BookRepositoryImpl
         }
     }
 
+    override fun getBookById(id: String): Flow<Book>  {
+        return localDataSource.getBookById(id).map {
+            it.toDomain()
+        }
+    }
+
     override suspend fun save(book: Book) {
         localDataSource.saveBookEntity(book.toEntity())
         localDataSource.updateBookCacheEntity(book.toCacheEntity())

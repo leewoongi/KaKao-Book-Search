@@ -7,6 +7,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.woon.datasource.local.room.entity.BookEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface BookDao {
@@ -65,4 +66,9 @@ interface BookDao {
     /** 즐겨찾기 삭제 */
     @Delete
     suspend fun delete(book: BookEntity)
+
+    /** isbn 단일 book 가져오기 */
+    @Query("SELECT * FROM books WHERE isbn = :id")
+    fun getBookById(id: String): Flow<BookEntity>
+
 }
