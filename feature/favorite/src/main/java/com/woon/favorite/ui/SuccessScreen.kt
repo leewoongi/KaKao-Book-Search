@@ -43,17 +43,19 @@ fun SuccessScreen(
             modifier = Modifier.height(16.dp)
         )
 
+        FilterScreen(
+            modifier = modifier,
+            onClickSortFilter = { onClickSortFilter(it) },
+            onClickPriceFilter = { onClickPriceFilter() }
+        )
+
         if (books.itemCount == 0) {
             EmptyScreen(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
             )
         } else {
-            FilterScreen(
-                modifier = modifier,
-                onClickSortFilter = { onClickSortFilter(it) },
-                onClickPriceFilter = { onClickPriceFilter() }
-            )
-
             Spacer(
                 modifier = Modifier.height(16.dp)
             )

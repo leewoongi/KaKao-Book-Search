@@ -57,8 +57,7 @@ fun PriceFilterBottomSheet(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(24.dp)
-                .navigationBarsPadding()
+                .padding(horizontal = 16.dp)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -138,28 +137,6 @@ fun PriceFilterBottomSheet(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // RangeSlider
-            BTextView(
-                text = "가격 범위",
-                textStyle = TextStyle(
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium
-                )
-            )
-
-            RangeSlider(
-                value = minPrice..maxPrice,
-                onValueChange = { range ->
-                    minPrice = range.start
-                    maxPrice = range.endInclusive
-                },
-                valueRange = 0f..100000f,
-                steps = 99,
-                modifier = Modifier.padding(horizontal = 8.dp)
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
             // 빠른 선택 옵션
             BTextView(
                 text = "빠른 선택",
@@ -175,11 +152,11 @@ fun PriceFilterBottomSheet(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 val quickRanges = listOf(
-                    "전체" to (0 to 100000),
+                    "전체" to (0 to Int.MAX_VALUE),
                     "~1만원" to (0 to 10000),
                     "1~3만원" to (10000 to 30000),
                     "3~5만원" to (30000 to 50000),
-                    "5만원~" to (50000 to 100000)
+                    "5만원~" to (50000 to Int.MAX_VALUE)
                 )
 
                 items(quickRanges.size) { index ->
