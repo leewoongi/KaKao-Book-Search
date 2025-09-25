@@ -36,7 +36,7 @@ fun HomeScreen(
                 onSearchTextChange = { viewModel.updateQuery(it) },
                 onFilterClick = { viewModel.updateFilter(it) },
                 onClickFavorite = { viewModel.updateFavorite(it) },
-                onClick = { navController.navigate("detail") }
+                onClick = { navController.navigate("detail/${it.isbn}") }
             )
         }
     }

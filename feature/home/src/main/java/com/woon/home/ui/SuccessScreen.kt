@@ -23,7 +23,7 @@ fun SuccessScreen(
     onSearchTextChange: (String) -> Unit = {},
     onFilterClick: (SearchFilterStatus) -> Unit = {},
     onClickFavorite: (BookUiModel) -> Unit = {},
-    onClick: () -> Unit = {}
+    onClick: (BookUiModel) -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -59,7 +59,7 @@ fun SuccessScreen(
                 modifier = modifier,
                 item = books,
                 onClickFavorite = { onClickFavorite(it) },
-                onClick = { onClick() }
+                onClick = { onClick(it) }
             )
         }
     }

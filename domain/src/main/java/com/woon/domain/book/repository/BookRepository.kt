@@ -17,6 +17,9 @@ interface BookRepository {
         range: Pair<Int, Int>
     ): Flow<PagingData<Book>>
 
-    suspend fun save(book: Book)
+    fun getBookById(id: String): Flow<Book>
+
     suspend fun update(book: Book)
+    suspend fun delete(book: Book)
+    suspend fun deleteNonFavoriteBooks()
 }

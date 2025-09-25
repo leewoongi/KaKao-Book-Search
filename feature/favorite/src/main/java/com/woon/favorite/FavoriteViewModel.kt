@@ -6,7 +6,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.woon.domain.book.usecase.GetBooksUseCase
-import com.woon.domain.book.usecase.ToggleFavoriteBookUseCase
+import com.woon.domain.book.usecase.ToggleFavoriteUseCase
 import com.woon.favorite.mapper.toDomain
 import com.woon.favorite.mapper.toUiModel
 import com.woon.favorite.model.BookUiModel
@@ -15,16 +15,14 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.junit.experimental.max.MaxCore
 import javax.inject.Inject
 
 @HiltViewModel
 class FavoriteViewModel
 @Inject constructor(
     private val getBooksUseCase: GetBooksUseCase,
-    private val toggleFavoriteBookUseCase: ToggleFavoriteBookUseCase
+    private val toggleFavoriteUseCase: ToggleFavoriteUseCase
 ): ViewModel() {
 
     private val _query = MutableStateFlow("")
@@ -72,7 +70,7 @@ class FavoriteViewModel
             val book = bookUiModel.copy(
                 isFavorite = !bookUiModel.isFavorite
             )
-            toggleFavoriteBookUseCase.invoke(book.toDomain())
+            toggleFavoriteUseCase.invoke(book.toDomain())
         }
     }
 

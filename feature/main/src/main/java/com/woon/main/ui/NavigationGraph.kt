@@ -1,11 +1,14 @@
 package com.woon.main.ui
 
+import android.R.attr.type
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.woon.core.navigation.LocalNavController
 import com.woon.detail.DetailScreen
 import com.woon.favorite.FavoriteScreen
@@ -30,8 +33,15 @@ fun NavigationGraph(
                 FavoriteScreen()
             }
 
-            composable("detail") {
-                DetailScreen()
+            composable(
+                route = "detail/{bookId}",
+                arguments = listOf(
+                    navArgument("bookId") { type = NavType.StringType }
+                )
+            ) { backStackEntry ->
+
+                val id = backStackEntry.arguments?.getString("bookId") ?: ""
+                DetailScreen(id = id)
             }
         }
     }

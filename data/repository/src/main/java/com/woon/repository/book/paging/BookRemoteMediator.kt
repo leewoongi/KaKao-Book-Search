@@ -32,15 +32,23 @@ class BookRemoteMediator(
     ): MediatorResult {
         return try {
             val page = when (loadType) {
-                LoadType.REFRESH -> { STARTING_PAGE_INDEX }
-                LoadType.PREPEND -> { return MediatorResult.Success(endOfPaginationReached = true) }
+                LoadType.REFRESH -> {
+                    STARTING_PAGE_INDEX
+                }
+
+                LoadType.PREPEND -> {
+                    return MediatorResult.Success(endOfPaginationReached = true)
+                }
+
                 LoadType.APPEND -> {
                     val item = state.lastItemOrNull()
-                    if(item == null) {
+                    if (item == null) {
                         return MediatorResult.Success(endOfPaginationReached = false)
                     } else {
                         val key = remoteKeysDao.getLastRemoteKey(item.isbn)
-                        val nextPage = key?.nextKey ?: return MediatorResult.Success(endOfPaginationReached = true)
+                        val nextPage = key?.nextKey ?: return MediatorResult.Success(
+                            endOfPaginationReached = true
+                        )
                         nextPage
                     }
                 }
@@ -75,7 +83,10 @@ class BookRemoteMediator(
 
                 remoteKeysDao.insertAll(keys)
 
-                val local = localDataSource.getBooksByQuery(query = query).map { it.isbn }.toSet()
+                val local = localDataSource.getBooksByQuery(
+                    query = query
+                ).map { it.isbn }.toSet()
+
                 val new = response.documents.map { book ->
                     book.toCacheEntity(
                         query = query

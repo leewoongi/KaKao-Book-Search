@@ -7,6 +7,8 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.woon.datasource.local.room.entity.BookCacheEntity
+import com.woon.datasource.local.room.entity.BookEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface BookCacheDao {
@@ -18,6 +20,9 @@ interface BookCacheDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(books: List<BookCacheEntity>)
 
+    /** isbn 단일 book 가져오기 */
+    @Query("SELECT * FROM books_cache WHERE isbn = :id")
+    fun getBookById(id: String): Flow<BookCacheEntity?>
 
     /** 단일 캐쉬된 Book 업데이트 */
     @Update

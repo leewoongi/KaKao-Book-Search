@@ -7,6 +7,9 @@ import com.woon.datasource.local.room.entity.BookCacheEntity
 import com.woon.datasource.local.room.entity.BookEntity
 import com.woon.domain.book.entity.SortType
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -46,15 +49,25 @@ class LocalBookLocalDataSourceImpl
         }
     }
 
-    override suspend fun saveBookEntity(entity: BookEntity) {
+    override fun getBookById(id: String): Flow<BookEntity?> {
+        return bookDao.getBookById(id = id)
+    }
+
+    override suspend fun updateBookEntity(entity: BookEntity) {
         withContext(Dispatchers.IO) {
             bookDao.insert(book = entity)
         }
     }
 
-    override suspend fun updateBookEntity(entity: BookEntity) {
+    override suspend fun deleteBookEntity(entity: BookEntity) {
         withContext(Dispatchers.IO) {
             bookDao.delete(book = entity)
+        }
+    }
+
+    override suspend fun deleteNonFavoriteBooks() {
+        withContext(Dispatchers.IO) {
+            bookDao.deleteNonFavoriteBooks()
         }
     }
 
@@ -62,5 +75,9 @@ class LocalBookLocalDataSourceImpl
         withContext(Dispatchers.IO) {
             cacheDao.update(entity)
         }
+    }
+
+    override fun getCacheBookById(id: String): Flow<BookCacheEntity?> {
+        return cacheDao.getBookById(id)
     }
 }
