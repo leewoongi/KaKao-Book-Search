@@ -1,6 +1,11 @@
 package com.woon.favorite
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.paging.LoadState
@@ -8,6 +13,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.woon.favorite.ui.ErrorScreen
 import com.woon.favorite.ui.LoadingScreen
 import com.woon.favorite.ui.SuccessScreen
+import com.woon.favorite.ui.bottomsheet.PriceFilterBottomSheet
 
 @Composable
 fun FavoriteScreen(
@@ -15,6 +21,9 @@ fun FavoriteScreen(
 ){
     val viewModel = hiltViewModel<FavoriteViewModel>()
     val books = viewModel.books.collectAsLazyPagingItems()
+
+    var showPriceFilter by remember { mutableStateOf(false) }
+    var priceRange by remember { mutableStateOf(0 to Int.MAX_VALUE) }
 
     when (books.loadState.refresh) {
         is LoadState.Loading -> {
@@ -33,9 +42,22 @@ fun FavoriteScreen(
             SuccessScreen(
                 books = books,
                 onSearchTextChange = { viewModel.updateQuery(it) },
-                onFilterClick = { viewModel.updateFilter(it) },
-                onClickFavorite = { viewModel.updateFavorite(it) }
+                onClickSortFilter = { viewModel.updateFilter(it) },
+                onClickFavorite = { viewModel.updateFavorite(it) },
+                onClickPriceFilter = { showPriceFilter = true }
             )
         }
+    }
+
+    if (showPriceFilter) {
+        PriceFilterBottomSheet(
+            onDismiss = { showPriceFilter = false },
+            onApply = { min, max ->
+                priceRange = min to max
+                viewModel.updatePriceRange(min, max)
+            },
+            currentMin = priceRange.first,
+            currentMax = priceRange.second
+        )
     }
 }

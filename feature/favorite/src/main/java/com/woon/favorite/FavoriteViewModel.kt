@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.junit.experimental.max.MaxCore
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,8 +30,12 @@ class FavoriteViewModel
     private val _query = MutableStateFlow("")
     val query = _query.asStateFlow()
 
-    private val _filter = MutableStateFlow(SearchFilterStatus.Descending)
+    private val _filter = MutableStateFlow(SearchFilterStatus.DESCENDING)
     val filter = _filter.asStateFlow()
+
+    private val _range = MutableStateFlow(0 to Int.MAX_VALUE)
+    val range = _range.asStateFlow()
+
     private val _books = MutableStateFlow<PagingData<BookUiModel>>(PagingData.empty())
     val books = _books.asStateFlow()
 
@@ -42,7 +47,8 @@ class FavoriteViewModel
         viewModelScope.launch {
             getBooksUseCase.getLocalBooks(
                 query = query.value,
-                filter = filter.value.value
+                filter = filter.value.value,
+                range = range.value
             ).map { pagingData ->
                 pagingData.map { it.toUiModel() }
             }.cachedIn(viewModelScope).collect { bookUiModel ->
@@ -68,5 +74,10 @@ class FavoriteViewModel
             )
             toggleFavoriteBookUseCase.invoke(book.toDomain())
         }
+    }
+
+    fun updatePriceRange(min: Int, max: Int) {
+        _range.value = min to max
+        getBooks()
     }
 }

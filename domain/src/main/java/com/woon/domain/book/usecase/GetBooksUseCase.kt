@@ -21,10 +21,13 @@ class GetBooksUseCase
 
     fun getLocalBooks(
         query: String,
-        filter: String
+        filter: String,
+        range: Pair<Int, Int>
     ): Flow<PagingData<Book>> {
         return bookRepository.getLocal(
             query = query,
-            filter = SortType.from(filter))
+            filter = SortType.from(filter),
+            range = range
+        )
     }
 }

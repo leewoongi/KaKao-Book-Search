@@ -14,6 +14,7 @@ interface BookRepository {
     fun getLocal(
         query: String,
         filter: SortType,
+        range: Pair<Int, Int>
     ): Flow<PagingData<Book>>
 
     suspend fun save(book: Book)
