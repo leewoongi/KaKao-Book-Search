@@ -35,20 +35,26 @@
 ### 아키텍처
 
 #### Clean Architecture 레이어링
-```mermaid
-flowchart LR
-    UI[Feature (home/detail/main)] -->|usecases| DOMAIN[Domain]
-    DOMAIN -->|contracts| REPO[Repository Interface]
-    DATA[Data (repository/datasource)] -->|implements| REPO
-    DATA --> REMOTE[Remote]
-    DATA --> LOCAL[Local]
-
-    classDef layer fill:#f0f7ff,stroke:#5b9bd5,stroke-width:1px;
-    classDef domain fill:#f6ffed,stroke:#52c41a,stroke-width:1px;
-    classDef data fill:#fff7e6,stroke:#fa8c16,stroke-width:1px;
-    class UI layer
-    class DOMAIN domain
-    class DATA,REMOTE,LOCAL data
+```
++---------------------------+        +----------------------+
+|        Feature(UI)        |  uses  |        Domain        |
+|  (home / detail / main)   | -----> |  UseCases & Entities |
++---------------------------+        +----------+-----------+
+                                              ^  contracts
+                                              |
+                                      +-------+--------+
+                                      |   Repository   |
+                                      |   Interfaces   |
+                                      +-------+--------+
+                                              ^ implements
+                                              |
+                        +---------------------+---------------------+
+                        |                     Data                  |
+                        |        (repository / datasource)          |
+                        +-----------+----------------+--------------+
+                                    |                |
+                                    v                v
+                                 Remote            Local
 ```
 - `domain`: 엔티티/유즈케이스/리포지토리 계약. 외부에 의존하지 않음.
 - `data`: `repository`가 `datasource(remote/local)`를 조합해 계약을 구현.
@@ -56,22 +62,23 @@ flowchart LR
 - `core`: 디자인 시스템, 공용 유틸/컴포넌트.
 
 #### MVVM 데이터 흐름
-```mermaid
-sequenceDiagram
-    participant UI as Compose UI
-    participant VM as HomeViewModel
-    participant UC as UseCase (GetBooks)
-    participant REPO as Repository
-    participant DS as Remote/Local DS
-
-    UI->>VM: onSearchTextChange / onFilterClick
-    VM->>VM: update query/filter (StateFlow)
-    VM->>UC: getBookList(query, filter)
-    UC->>REPO: Flow<PagingData<Book>>
-    REPO->>DS: PagingSource/RemoteMediator
-    DS-->>REPO: Page + Cache
-    REPO-->>VM: PagingData
-    VM-->>UI: LazyPagingItems
+```
+[Compose UI]
+   | onSearchTextChange / onFilterClick
+   v
+[HomeViewModel]
+   | update query/filter (StateFlow)
+   | call UseCase: getBookList(query, filter)
+   v
+[UseCase]
+   v
+[Repository]
+   | PagingSource / RemoteMediator
+   v
+[Remote/Local DataSource]
+   | Page + Cache
+   v
+[Repository] -> [ViewModel] -> [Compose UI(LazyPagingItems)]
 ```
 - 입력 변화는 `flatMapLatest`로 기존 스트림을 취소하고 새 페이징을 시작합니다.
 - UI는 `LazyPagingItems`로 로딩/에러/빈 상태를 선언적으로 처리합니다.
@@ -81,16 +88,19 @@ sequenceDiagram
 ### 데이터 동기화: RemoteMediator
 원격(카카오 API)에서 가져온 데이터를 **로컬 DB에 캐시**하고, 페이징 경계에서 동기화를 수행합니다.
 
-```mermaid
-flowchart TB
-    TRIGGER[User scroll / refresh] --> MEDIATOR[RemoteMediator]
-    MEDIATOR -->|load()| REMOTE[(Remote API)]
-    MEDIATOR -->|cache| DB[(Local DB)]
-    UI[Compose Paging] -->|PagingSource from DB| DB
-    DB --> UI
-
-    classDef node fill:#eef,stroke:#99f,stroke-width:1px;
-    class TRIGGER,MEDIATOR,REMOTE,DB,UI node
+```
+(User scroll / refresh)
+          |
+          v
+  [RemoteMediator]
+     | load()
+     |---------------> (Remote API)
+     | cache
+     v
+   (Local DB) <------ UI(Compose Paging) reads via PagingSource
+          ^
+          |
+          +---- DB changes propagate to UI
 ```
 - 최초/추가 페이지 로드 시 원격 호출 → 결과를 로컬 DB 저장 → UI는 DB 기반 `PagingSource`로 그리며, 네트워크 상태와 무관하게 스크롤 경험을 제공합니다.
 - 캐시 무효화/갱신 전략은 페이징 키/메타와 함께 관리합니다.
@@ -156,7 +166,7 @@ kakao-book-search/
 - DI: Hilt
 - UI: Jetpack Compose
 - 아키텍처: Clean Architecture, MVVM
-- 데이터: Paging 3, RemoteMediator, Room(또는 유사 로컬 저장소), Retrofit/OkHttp
+- 데이터: Paging 3, RemoteMediator, Room, Retrofit/OkHttp
 - 빌드: Gradle Version Catalog, Custom build-logic Plugins
 
 ---
