@@ -2,7 +2,6 @@ package com.woon.repository.book.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.woon.datasource.local.LocalBookDataSource
 import com.woon.datasource.remote.RemoteBookDataSource
 import com.woon.datasource.remote.book.response.book.Document
 
@@ -17,7 +16,7 @@ class BookPagingSource(
             val page = params.key ?: 1
             val size = params.loadSize.takeIf { it <= 20 } ?: 20
 
-            val response = remoteDataSource.getRemoteBooks(query, filter, page, size)
+            val response = remoteDataSource.getBooks(query, filter, page, size)
             val documents = response.documents
 
             val nextKey = when {
