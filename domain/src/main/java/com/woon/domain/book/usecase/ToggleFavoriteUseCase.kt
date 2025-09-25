@@ -9,6 +9,6 @@ class ToggleFavoriteUseCase
     private val bookRepository: BookRepository
 ){
     suspend operator fun invoke(book: Book) {
-        bookRepository.save(book)
+        bookRepository.update(book)
     }
 }

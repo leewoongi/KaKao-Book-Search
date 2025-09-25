@@ -85,9 +85,7 @@ class BookRemoteMediator(
 
                 val local = localDataSource.getBooksByQuery(
                     query = query
-                ).filter { it.favorite }
-                    .map { it.isbn }
-                    .toSet()
+                ).map { it.isbn }.toSet()
 
                 val new = response.documents.map { book ->
                     book.toCacheEntity(

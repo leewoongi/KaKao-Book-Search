@@ -22,7 +22,7 @@ fun DetailScreen(
 
     DisposableEffect(Unit) {
         onDispose {
-
+            viewModel.remove()
         }
     }
 

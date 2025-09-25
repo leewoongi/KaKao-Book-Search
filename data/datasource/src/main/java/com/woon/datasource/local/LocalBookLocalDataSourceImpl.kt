@@ -53,15 +53,9 @@ class LocalBookLocalDataSourceImpl
         return bookDao.getBookById(id = id)
     }
 
-    override suspend fun saveBookEntity(entity: BookEntity) {
-        withContext(Dispatchers.IO) {
-            bookDao.insert(book = entity)
-        }
-    }
-
     override suspend fun updateBookEntity(entity: BookEntity) {
         withContext(Dispatchers.IO) {
-            bookDao.update(book = entity)
+            bookDao.insert(book = entity)
         }
     }
 
@@ -70,7 +64,6 @@ class LocalBookLocalDataSourceImpl
             bookDao.delete(book = entity)
         }
     }
-
 
     override suspend fun deleteNonFavoriteBooks() {
         withContext(Dispatchers.IO) {

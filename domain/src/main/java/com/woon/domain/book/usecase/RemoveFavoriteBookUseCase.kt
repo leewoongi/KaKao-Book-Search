@@ -8,11 +8,7 @@ class RemoveFavoriteBookUseCase
 @Inject constructor(
     private val bookRepository: BookRepository
 ){
-    suspend operator fun invoke(book: Book){
-        if(book.isFavorite) {
-            bookRepository.save(book)
-        } else {
-            bookRepository.delete(book)
-        }
+    suspend operator fun invoke(){
+        bookRepository.deleteNonFavoriteBooks()
     }
 }

@@ -27,7 +27,6 @@ class DetailViewModel
     private val removeFavoriteUseCase: RemoveFavoriteBookUseCase
 ) : ViewModel() {
 
-    private var currentBook: BookUiModel? = null
     private val bookId: String = checkNotNull(savedStateHandle["bookId"])
     private val _book = MutableStateFlow<DetailUiState>(DetailUiState.Loading)
     val book = _book.asStateFlow()
@@ -49,7 +48,6 @@ class DetailViewModel
             delay(1000)
             getBookUseCase.invoke(bookId).collect { book ->
                 val result = book.toUiModel()
-                currentBook = result
                 _book.value = DetailUiState.Success(
                     book = result,
                     onClickFavorite = { updateFavorite(result) }
@@ -59,13 +57,17 @@ class DetailViewModel
     }
 
     private fun updateFavorite(bookUiModel: BookUiModel) {
-        println("TEST TEST TEST isbn: ${bookUiModel.isbn}")
-        println("TEST TEST TEST isFavorite: ${bookUiModel.isFavorite}")
         viewModelScope.launch {
             val book = bookUiModel.copy(
                 isFavorite = !bookUiModel.isFavorite
             )
             toggleFavoriteUseCase.invoke(book.toDomain())
+        }
+    }
+
+    fun remove() {
+        viewModelScope.launch {
+            removeFavoriteUseCase.invoke()
         }
     }
 }

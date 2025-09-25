@@ -19,17 +19,8 @@ import com.woon.repository.book.mapper.toCacheEntity
 import com.woon.repository.book.mapper.toEntity
 import com.woon.repository.book.paging.BookRemoteMediator
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.runBlocking
 
 class BookRepositoryImpl
 @Inject constructor(
@@ -98,13 +89,16 @@ class BookRepositoryImpl
         }.flowOn(Dispatchers.IO)
     }
 
-    override suspend fun save(book: Book) {
-        localDataSource.saveBookEntity(book.toEntity())
+    override suspend fun update(book: Book) {
+        localDataSource.updateBookEntity(book.toEntity())
         localDataSource.updateBookCacheEntity(book.toCacheEntity())
     }
 
     override suspend fun delete(book: Book) {
         localDataSource.deleteBookEntity(book.toEntity())
-        localDataSource.updateBookCacheEntity(book.toCacheEntity())
+    }
+
+    override suspend fun deleteNonFavoriteBooks() {
+        localDataSource.deleteNonFavoriteBooks()
     }
 }

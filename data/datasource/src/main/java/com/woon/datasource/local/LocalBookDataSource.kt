@@ -15,7 +15,6 @@ interface LocalBookDataSource {
     suspend fun getBooksByQuery(query: String) : List<BookEntity>
     fun getBookById(id: String) : Flow<BookEntity?>
 
-    suspend fun saveBookEntity(entity: BookEntity)
     suspend fun updateBookEntity(entity: BookEntity)
     suspend fun deleteBookEntity(entity: BookEntity)
     suspend fun deleteNonFavoriteBooks()
