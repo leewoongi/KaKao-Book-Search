@@ -45,7 +45,7 @@ class BookRepositoryImpl
                 db = db
             ),
             pagingSourceFactory = {
-                db.bookCacheDao().pagingSource(query)
+                db.bookCacheDao().pagingSourceByQuery(query)
             }
         ).flow.map { pagingData ->
             pagingData.map { entity ->

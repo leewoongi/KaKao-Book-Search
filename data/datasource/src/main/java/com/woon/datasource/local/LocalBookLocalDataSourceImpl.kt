@@ -14,13 +14,15 @@ class LocalBookLocalDataSourceImpl
     private val bookDao: BookDao,
     private val cacheDao: BookCacheDao
 ) : LocalBookDataSource {
+    
     override fun getBooks(query: String): PagingSource<Int, BookEntity> {
-        return bookDao.getBooks()
+        return if(query.isEmpty()) bookDao.pagingSourceAll()
+        else bookDao.pagingSourceByQuery(query = query)
     }
 
-    override suspend fun getAll(): List<BookEntity> {
+    override suspend fun getBooksByQuery(query: String): List<BookEntity> {
         return withContext(Dispatchers.IO) {
-            bookDao.getAll()
+            bookDao.getBooksByQuery(query = query)
         }
     }
 

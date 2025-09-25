@@ -10,13 +10,14 @@ import com.woon.datasource.local.room.entity.BookCacheEntity
 
 @Dao
 interface BookCacheDao {
+    /** query로 캐쉬된 Book 목록 가져오기 */
+    @Query("SELECT * FROM books_cache WHERE `query` = :query")
+    fun pagingSourceByQuery(query: String): PagingSource<Int, BookCacheEntity>
+
     /** 캐시 데이터 업데이트 */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(books: List<BookCacheEntity>)
 
-    /** query로 캐쉬된 Book 목록 가져오기 */
-    @Query("SELECT * FROM books_cache WHERE `query` = :query")
-    fun pagingSource(query: String): PagingSource<Int, BookCacheEntity>
 
     /** 단일 캐쉬된 Book 업데이트 */
     @Update

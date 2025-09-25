@@ -9,7 +9,7 @@ class RemoteBookDataSourceImpl
 @Inject constructor(
     private val bookApi: BookApi
 ): RemoteBookDataSource {
-    override suspend fun getRemoteBooks(
+    override suspend fun getBooks(
         query: String,
         filter: String,
         page: Int,

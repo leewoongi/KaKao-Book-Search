@@ -47,7 +47,7 @@ class BookRemoteMediator(
             }
 
 
-            val response = remoteDataSource.getRemoteBooks(
+            val response = remoteDataSource.getBooks(
                 query = query,
                 filter = filter,
                 page = page,
@@ -75,7 +75,7 @@ class BookRemoteMediator(
 
                 remoteKeysDao.insertAll(keys)
 
-                val local = localDataSource.getAll().map { it.isbn }.toSet()
+                val local = localDataSource.getBooksByQuery(query = query).map { it.isbn }.toSet()
                 val new = response.documents.map { book ->
                     book.toCacheEntity(
                         query = query
