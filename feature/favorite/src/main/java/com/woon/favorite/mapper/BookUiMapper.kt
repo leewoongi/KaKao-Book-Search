@@ -1,11 +1,11 @@
-package com.woon.home.mapper
+package com.woon.favorite.mapper
 
 import com.woon.core.ext.toDate
 import com.woon.core.ext.toFormattedString
 import com.woon.domain.book.entity.Book
 import com.woon.domain.book.entity.BookStatus
 import com.woon.domain.money.entity.Money
-import com.woon.home.model.BookUiModel
+import com.woon.favorite.model.BookUiModel
 
 internal fun Book.toUiModel() : BookUiModel {
     return BookUiModel(

@@ -5,16 +5,16 @@ import com.woon.domain.book.entity.Book
 import kotlinx.coroutines.flow.Flow
 
 interface BookRepository {
-    fun getRemoteBooks(
+    fun getRemote(
         query: String,
         filter: String,
     ): Flow<PagingData<Book>>
 
-    fun getLocalBooks(
+    fun getLocal(
         query: String,
         filter: String,
     ): Flow<PagingData<Book>>
 
-    suspend fun saveFavoriteBook(book: Book)
-    suspend fun deleteFavoriteBook(book: Book)
+    suspend fun save(book: Book)
+    suspend fun update(book: Book)
 }

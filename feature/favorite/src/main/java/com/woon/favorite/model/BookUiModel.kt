@@ -1,4 +1,4 @@
-package com.woon.home.model
+package com.woon.favorite.model
 
 data class BookUiModel(
     val authors: String,

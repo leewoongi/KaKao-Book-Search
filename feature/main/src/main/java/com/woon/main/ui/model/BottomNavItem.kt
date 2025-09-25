@@ -10,5 +10,5 @@ sealed class BottomNavItem(
     val icon: androidx.compose.ui.graphics.vector.ImageVector
 ) {
     object Home : BottomNavItem("home", "홈", Icons.Default.Home)
-    object Favorites : BottomNavItem("favorites", "즐겨찾기", Icons.Default.Favorite)
+    object Favorites : BottomNavItem("favorite", "즐겨찾기", Icons.Default.Favorite)
 }

@@ -6,7 +6,6 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "books_cache")
 data class BookCacheEntity(
     @PrimaryKey
-    val id: String, // "query#isbn" 형태의 복합키
     val isbn: String,
     val title: String,
     val authors: String,
@@ -21,6 +20,4 @@ data class BookCacheEntity(
     val url: String,
     val favorite: Boolean,
     val query: String,
-    val page: Int,
-    val position: Int
 )

@@ -17,6 +17,8 @@ import java.util.Date
  * @param image 책 표지
  * @param translators 번역가
  * @param url 책 상세 페이지
+ * @param isFavorite 즐겨찾기 여부
+ * @param query 검색어
  */
 data class Book(
     val authors: List<String>,
@@ -31,7 +33,8 @@ data class Book(
     val image: String,
     val translators: List<String>,
     val url: String,
-    val isFavorite: Boolean
+    val isFavorite: Boolean,
+    val query: String
 ){
     fun convertAuthorsToString(): String {
         return authors.joinToString(", ")
